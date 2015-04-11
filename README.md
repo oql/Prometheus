@@ -1,7 +1,7 @@
 #Prometheus
 Such a practical wiki which is great.
-
-##--Current Position--
+<br><br>
+##Current Position
 
 ###Vertx2
 Using vertx2 for serverside.
@@ -9,8 +9,8 @@ I will upgrade it when vertx3 is stabled and well documented.
 
 ###Signin and Signup
 Try to make simple signin and signup index page.
-
-##--Required Functions--
+<br><br>
+##Required Functions
 
 ### Editing
 Users are free to choose what to use edit document.
