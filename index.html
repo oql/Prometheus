@@ -3,14 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>index page</title>
+    <script>
+        function signin(){
+            document.fm.action="/signin";
+            document.fm.submit();
+        }
+        function signup(){
+            if(document.fm.nk.value === ""){
+                alert("input nickname!! fucker");
+            }
+            else{
+                document.fm.action="/signup";
+                document.fm.submit();
+            }
+        }
+    </script>
 </head>
 <body>
-    <form action="/signin" method="POST">
+    <script>alert("hi");</script>
+    <form name="fm" method="POST">
         <label for="em">email</label>
-        <input type="email" name="em">
+        <input type="email" name="em" required>
         <label for="pw">password</label>
-        <input type="password" name="pw">
-        <input type="submit">
+        <input type="password" name="pw" required>
+        <label for="nk">nickname(for signup)</label>
+        <input type="text" name="nk">
+
+        <input type="button" value="signin" onclick="signin()">
+        <input type="button" value="signup" onclick="signup()">
     </form>
 </body>
 </html>
