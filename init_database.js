@@ -1,4 +1,5 @@
 var container = require('vertx/container');
+var eb = require("vertx/event_bus");
 
 var config={
     address:'mysql.test',
