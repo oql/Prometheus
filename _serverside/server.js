@@ -34,10 +34,4 @@ var http = vertx.createHttpServer().requestHandler(function(req){
     } else if(req.uri() === "/main"){
         req.response.sendFile("main.html");
     }
-
-    // eb.registerHandler('go.main', function(msg, replier){
-    //     console.log("--got go.main event--");
-    //     // req.response.write("<script>location.href='/main';</script>");
-    //     replier(req.response.write("<script>location.href='/main';</script>"));
-    // });
 }).listen(8080);

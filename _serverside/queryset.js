@@ -12,15 +12,9 @@ function q_signin(q, pw){
             if(pw != msg.result[0].password){
                 console.log("--incorrect!!--");
                 //back to index page
-                // eb.send('go.index', 'message', function(rpl){
-                //
-                // });
             } else{
                 console.log("###correct###");
                 //get user to main page
-                // eb.send('go.main', 'message', function(rpl){
-                //
-                // });
             }
         }
     );
