@@ -1,2 +1,0 @@
-fix query error
-redirect user to right page(trying)
