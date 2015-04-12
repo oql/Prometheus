@@ -2,11 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>edit.html</title>
+    <script>
+    // toggle text
+    function tg(btn){
+        if (tx.contentEditable == "true") {
+            tx.contentEditable = "false";
+            btn.innerHTML = "Edit";
+            test();
+        } else {
+            tx.contentEditable = "true";
+            tx.focus();
+            btn.innerHTML = "Hold";
+        }
+    }
+    function test(){
+        alert("test");
+        var lnk = document.createElement("a");
+        var ta = document.createTextNode("a");
+        var tb = document.createTextNode("b");
+        var tc = document.createTextNode("c");
+        var td = document.createTextNode("d");
+        var te = document.createTextNode("e");
+        var ba = document.createTextNode("||");
 
+        lnk.href ="https://www.google.co.kr";
+        lnk.innerHTML="this is a link";
+        tx.appendChild(ta);
+        tx.appendChild(tb);
+        tx.appendChild(tc);
+        tx.appendChild(td);
+        tx.appendChild(te);
+        tx.appendChild(lnk);
+        tx.insertBefore(ba, tx.childNodes[1]);
+    }
+    </script>
 </head>
 <body>
-    <div id='edit' contentEditable='true'>selkh</div>
+    <header>
 
+    </header>
+    <section>
+        <button onclick="tg(this)">Edit</button>
+        <div id='text' contentEditable='false'></div>
+        <div id='test' contentEditable='false'></div>
+    </section>
+    <footer>
+
+    </footer>
 </body>
 </html>
+
+<!-- get DOM objects -->
+<script>
+var tx = document.getElementById("text");
+var ts = document.getElementById("test");
+</script>
+
+<script>
+// //global savedrange variable to store text range in
+// var savedrange = null;
+//
+// function getSelection()
+// {
+//     var savedRange;
+//     if(window.getSelection && window.getSelection().rangeCount > 0) //FF,Chrome,Opera,Safari,IE9+
+//     {
+//         savedRange = window.getSelection().getRangeAt(0).cloneRange();
+//     }
+//     else if(document.selection)//IE 8 and lower
+//     {
+//         savedRange = document.selection.createRange();
+//     }
+//     return savedRange;
+// }
+//
+// $('#contentbox').keyup(function() {
+//     var currentRange = getSelection();
+//     if(window.getSelection)
+//     {
+//         //do stuff with standards based object
+//     }
+//     else if(document.selection)
+//     {
+//         //do stuff with microsoft object (ie8 and lower)
+//     }
+// });
+</script>
