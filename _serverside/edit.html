@@ -1,10 +1,13 @@
+<!-- this page is for document editing function test -->
+<!-- and still in progress -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>edit.html</title>
     <script>
-    // toggle text
+    // toggle text contentEditable attribute
     function tg(btn){
         if (tx.contentEditable == "true") {
             tx.contentEditable = "false";
@@ -12,6 +15,7 @@
             test();
         } else {
             tx.contentEditable = "true";
+            //if user click edit button, automatically focus on document
             tx.focus();
             btn.innerHTML = "Hold";
         }
@@ -88,4 +92,6 @@ var ts = document.getElementById("test");
 //         //do stuff with microsoft object (ie8 and lower)
 //     }
 // });
+// https://developer.mozilla.org/en-US/docs/Web/API/range
+// http://stackoverflow.com/questions/3972014/get-caret-position-in-contenteditable-div
 </script>

@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <title>index page</title>
     <script>
+        //signin button events( signin, enter )
         function signin(){
             document.fm.action="/signin";
             document.fm.submit();
         }
+        function enter(e){
+            if(e.keyCode == 13){
+                signin();
+            }
+        }
+        window.addEventListener("keydown", enter);
+        //signup button event
         function signup(){
             if(document.fm.nk.value === ""){
                 alert("input nickname!! fucker");
@@ -17,12 +25,6 @@
                 document.fm.submit();
             }
         }
-        function enter(e){
-            if(e.keyCode == 13){
-                signin();
-            }
-        }
-        window.addEventListener("keydown", enter);
     </script>
 </head>
 <body>
