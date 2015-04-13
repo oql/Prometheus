@@ -14,7 +14,7 @@ var http = vertx.createHttpServer().requestHandler(function(req){
     if(req.uri() === "/"){
         req.response.sendFile("index.html");
     } else if(req.uri() === "/signin"){
-        req.response.sendFile("edit.html");
+        req.response.sendFile("signin.html");
 
         //get Form data by 'POST' method
         req.expectMultiPart(true);

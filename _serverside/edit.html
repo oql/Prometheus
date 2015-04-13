@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <meta charset="UTF-8">
     <title>edit.html</title>
     <script>
@@ -26,8 +28,6 @@
         var ta = document.createTextNode("a");
         var tb = document.createTextNode("b");
         var tc = document.createTextNode("c");
-        var td = document.createTextNode("d");
-        var te = document.createTextNode("e");
         var ba = document.createTextNode("||");
 
         lnk.href ="https://www.google.co.kr";
@@ -35,8 +35,6 @@
         tx.appendChild(ta);
         tx.appendChild(tb);
         tx.appendChild(tc);
-        tx.appendChild(td);
-        tx.appendChild(te);
         tx.appendChild(lnk);
         tx.insertBefore(ba, tx.childNodes[1]);
     }
@@ -48,8 +46,9 @@
     </header>
     <section>
         <button onclick="tg(this)">Edit</button>
-        <div id='text' contentEditable='false'></div>
-        <div id='test' contentEditable='false'></div>
+        <div id='text' contentEditable='false' tabindex = '1'></div><br>
+        <div id='test' contentEditable='false'></div><br>
+        <div id='ca' contentEditable='true' tabindex ='0'>aaaaaaaaaaaa</div>
     </section>
     <footer>
 
@@ -61,37 +60,42 @@
 <script>
 var tx = document.getElementById("text");
 var ts = document.getElementById("test");
+var ca = document.getElementById("ca");
 </script>
 
 <script>
-// //global savedrange variable to store text range in
-// var savedrange = null;
-//
-// function getSelection()
-// {
-//     var savedRange;
-//     if(window.getSelection && window.getSelection().rangeCount > 0) //FF,Chrome,Opera,Safari,IE9+
-//     {
-//         savedRange = window.getSelection().getRangeAt(0).cloneRange();
-//     }
-//     else if(document.selection)//IE 8 and lower
-//     {
-//         savedRange = document.selection.createRange();
-//     }
-//     return savedRange;
-// }
-//
-// $('#contentbox').keyup(function() {
+//global savedrange variable to store text range in
+var savedrange = null;
+
+function getSelection()
+{
+    var savedRange;
+    if(window.getSelection && window.getSelection().rangeCount > 0) //FF,Chrome,Opera,Safari,IE9+
+    {
+        savedRange = window.getSelection().getRangeAt(0).cloneRange();
+    }
+    return savedRange;
+}
+
+// function ck( event ){
+//     alert("keyup");
 //     var currentRange = getSelection();
 //     if(window.getSelection)
 //     {
+//         ca.innerHTML = currentRange+"";
 //         //do stuff with standards based object
+//
 //     }
-//     else if(document.selection)
-//     {
-//         //do stuff with microsoft object (ie8 and lower)
-//     }
-// });
+// }
+$('#text').keyup(function(e) {
+    alert("keyup");
+    var currentRange = getSelection();
+    if(window.getSelection)
+    {
+        ca.innerHTML = currentRange+"";
+        //do stuff with standards based object
+    }
+});
 // https://developer.mozilla.org/en-US/docs/Web/API/range
 // http://stackoverflow.com/questions/3972014/get-caret-position-in-contenteditable-div
 </script>
