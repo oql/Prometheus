@@ -12,9 +12,12 @@
         function enter(e){
             if(e.keyCode == 13){
                 signin();
+                // prevent request twice
+                e.preventDefault();
             }
         }
-        window.addEventListener("keydown", enter);
+        window.addEventListener("keypress", enter);
+        
         //signup button event
         function signup(){
             if(document.fm.nk.value === ""){

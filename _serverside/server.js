@@ -98,6 +98,7 @@ var http = vertx.createHttpServer()
                     }
                 }
             );
+            console.log("------------------------outer_--------------------------");
         });
     } else if(req.uri() === "/signup"){
         req.response.sendFile("edit.html");
@@ -110,7 +111,17 @@ var http = vertx.createHttpServer()
             var pw = attrs.get("pw");
             var nk = attrs.get("nk");
 
-            q_signup("insert into user(email, password, nickname) values('"+em+"','"+pw+"','"+nk+"')");
+            eb.send(
+                'mysql.test',
+                {
+                    action: 'insert',
+                    stmt: "insert into user(email, password, nickname) values('"+em+"','"+pw+"','"+nk+"')"
+                },
+                function(msg){
+                    console.log('---sql status: '+msg.status+'---');
+                    req.response.end("<script>location.href = 'http://localhost:8080/main';</script>");
+                }
+            );
         });
     } else if(req.uri() === "/main"){
         req.response.sendFile("main.html");
