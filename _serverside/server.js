@@ -55,7 +55,7 @@ var http = vertx.createHttpServer()
 .requestHandler(function(req){
     //route user by their uri
     if(req.uri() === "/"){
-        req.response.sendFile("index.html");
+        req.response.sendFile("../_clientside/index.html");
     } else if(req.uri() === "/signin"){
         //get Form data by 'POST' method
         req.expectMultiPart(true);
@@ -98,11 +98,8 @@ var http = vertx.createHttpServer()
                     }
                 }
             );
-            console.log("------------------------outer_--------------------------");
         });
     } else if(req.uri() === "/signup"){
-        req.response.sendFile("edit.html");
-
         //get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
@@ -124,7 +121,7 @@ var http = vertx.createHttpServer()
             );
         });
     } else if(req.uri() === "/main"){
-        req.response.sendFile("main.html");
+        req.response.sendFile("../_clientside/main.html");
     }
 }).listen(8080);
 // .requestHandler(rm).listen(8080);
