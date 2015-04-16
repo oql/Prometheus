@@ -8,7 +8,10 @@ Using vertx2 for serverside.
 I will upgrade it when vertx3 is stabled and well documented.
 
 ###Signin and Signup
-Try to make simple signin and signup index page.
+I made simple signin and signup index page. Willing to add ssl and smtp auth functions.
+
+###Designing Main
+designing main page suit for our wiki
 <br><br>
 ##Required Functions
 
