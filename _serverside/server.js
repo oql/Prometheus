@@ -57,8 +57,6 @@ var http = vertx.createHttpServer()
     if(req.uri() === "/"){
         req.response.sendFile("index.html");
     } else if(req.uri() === "/signin"){
-        // req.response.sendFile("signin.html");
-
         //get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
@@ -66,15 +64,40 @@ var http = vertx.createHttpServer()
             var em = attrs.get("em");
             var pw = attrs.get("pw");
 
-            var isis = q_signin("select * from user where email='"+em+"'", pw);
+            // edit here when fully understand callback function
+            // #################################################
+            // var isis = q_signin("select * from user where email='"+em+"'", pw, function(msg){
+            //     console.log('---sql status: '+msg.status+'---');
+            //
+            //     if(pw != msg.result[0].password){
+            //         console.log("--incorrect!!--");
+            //         //back to index page
+            //         is_right = false;
+            //     } else{
+            //         console.log("###correct###");
+            //         //get user to main page
+            //         is_right = true;
+            //     }
+            // });
 
-            console.log("----------return-------------"+isis+"--------------------");
+            eb.send(
+                'mysql.test',
+                {
+                    action: 'select',
+                    stmt: "select * from user where email='"+em+"'"
+                },
+                function(msg){
+                    console.log('---sql status: '+msg.status+'---');
 
-            if(isis){
-                req.response.end("<script>location.href = 'localhost:8080/main';</script>");
-            }else{
-                req.response.end("<script>location.href = 'localhost:8080/';</script>");
-            }
+                    if(pw != msg.result[0].password){
+                        console.log("--incorrect!!--");
+                        req.response.end("<script>location.href = 'http://localhost:8080/';</script>");
+                    } else{
+                        console.log("###correct###");
+                        req.response.end("<script>location.href = 'http://localhost:8080/main';</script>");
+                    }
+                }
+            );
         });
     } else if(req.uri() === "/signup"){
         req.response.sendFile("edit.html");
