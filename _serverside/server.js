@@ -7,9 +7,6 @@ var rm = new vertx.RouteMatcher();
 
 container.deployVerticle("init_database.js");
 
-//load query functions( ex q_signin, q_signup )
-load("queryset.js");
-
 // rm.get('/', function(req){
 //     req.response.sendFile("index.html");
 // });
@@ -63,22 +60,6 @@ var http = vertx.createHttpServer()
             var attrs = req.formAttributes();
             var em = attrs.get("em");
             var pw = attrs.get("pw");
-
-            // edit here when fully understand callback function
-            // #################################################
-            // var isis = q_signin("select * from user where email='"+em+"'", pw, function(msg){
-            //     console.log('---sql status: '+msg.status+'---');
-            //
-            //     if(pw != msg.result[0].password){
-            //         console.log("--incorrect!!--");
-            //         //back to index page
-            //         is_right = false;
-            //     } else{
-            //         console.log("###correct###");
-            //         //get user to main page
-            //         is_right = true;
-            //     }
-            // });
 
             eb.send(
                 'mysql.test',
