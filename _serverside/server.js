@@ -42,11 +42,6 @@ container.deployVerticle("init_database.js");
 // rm.get('/main', function(req){
 //     req.response.sendFile("main.html");
 // });
-// rm.put('/:file', fuction(req){
-//     var flnm = req.params().get('file');
-//     req.response.sendFile(flnm);
-// });
-
 
 //create Http server that listen port number 8080
 var http = vertx.createHttpServer()
@@ -55,9 +50,9 @@ var http = vertx.createHttpServer()
 })
 .requestHandler(function(req){
     //route user by their uri
-    if(req.uri() === "/"){
+    if(req.path() === "/"){
         req.response.sendFile("../_clientside/index.html");
-    } else if(req.uri() === "/signin"){
+    } else if(req.path() === "/signin"){
         //get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
@@ -84,7 +79,7 @@ var http = vertx.createHttpServer()
                 }
             );
         });
-    } else if(req.uri() === "/signup"){
+    } else if(req.path() === "/signup"){
         //get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
@@ -105,8 +100,10 @@ var http = vertx.createHttpServer()
                 }
             );
         });
-    } else if(req.uri() === "/main"){
+    } else if(req.path() === "/main"){
         req.response.sendFile("../_clientside/main.html");
+    } else{
+        file = req.path();
+        req.response.sendFile("../_clientside"+file);
     }
 }).listen(8080);
-// .requestHandler(rm).listen(8080);
