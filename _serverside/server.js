@@ -42,6 +42,10 @@ container.deployVerticle("init_database.js");
 // rm.get('/main', function(req){
 //     req.response.sendFile("main.html");
 // });
+// rm.put('/:file', fuction(req){
+//     var flnm = req.params().get('file');
+//     req.response.sendFile(flnm);
+// });
 
 
 //create Http server that listen port number 8080
