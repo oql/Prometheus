@@ -1,0 +1,83 @@
+<!-- this page is for document editing function test -->
+<!-- and still in progress -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit.html</title>
+
+    <script>
+    // toggle text contentEditable attribute
+    function tg(btn){
+        if (tx.contentEditable == "true") {
+            tx.contentEditable = "false";
+            btn.innerHTML = "Edit";
+            // test();
+        } else {
+            tx.contentEditable = "true";
+            //if user click edit button, automatically focus on document
+            tx.focus();
+            btn.innerHTML = "Hold";
+        }
+    }
+
+    //global savedrange variable to store text range in
+    var savedrange = null;
+
+    function getSelection()
+    {
+        var savedRange;
+        if(window.getSelection && window.getSelection().rangeCount > 0) //FF,Chrome,Opera,Safari,IE9+
+        {
+            savedRange = window.getSelection().getRangeAt(0).cloneRange();
+        }
+        return savedRange;
+    }
+
+    function ck(e){
+        // alert("keyup");
+        var currentRange = getSelection();
+        if(window.getSelection())
+        {
+            ca.innerHTML = currentRange+"aaa";
+            alert("lkh");
+            //do stuff with standards based object
+
+        }
+    }
+
+    // this is for understanding DOM node
+    // function test(){
+    //     alert("test");
+    //     var lnk = document.createElement("a");
+    //     var ta = document.createTextNode("a");
+    //
+    //     lnk.href ="https://www.google.co.kr";
+    //     lnk.innerHTML="this is a link";
+    //     tx.appendChild(ta);
+    //     tx.appendChild(lnk);
+    //     tx.insertBefore(ba, tx.childNodes[1]);
+    // }
+    </script>
+</head>
+<body>
+    <section>
+        <button onclick="tg(this)">Edit</button>
+        <div id='text' contentEditable='false' onkeyup="ck()"></div><br>
+        <div id='test' contentEditable='false'></div><br>
+        <div id='ca'>aaaaaaaaaaaa</div>
+    </section>
+</body>
+</html>
+
+
+<script>
+// get DOM objects
+var tx = document.getElementById("text");
+var ts = document.getElementById("test");
+var ca = document.getElementById("ca");
+
+// https://developer.mozilla.org/en-US/docs/Web/API/range
+// http://stackoverflow.com/questions/3972014/get-caret-position-in-contenteditable-div
+</script>
