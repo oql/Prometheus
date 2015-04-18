@@ -33,10 +33,10 @@ var http = vertx.createHttpServer()
 
                     if(pw != msg.result[0].password){
                         console.log("--incorrect!!--");
-                        req.response.end("<script>location.href = 'http://localhost:8080/';</script>");
+                        req.response.end("<script>location.href = 'http://ryunwake.com/';</script>");
                     } else{
                         console.log("###correct###");
-                        req.response.end("<script>location.href = 'http://localhost:8080/main';</script>");
+                        req.response.end("<script>location.href = 'http://ryunwake.com/main';</script>");
                     }
                 }
             );
@@ -58,7 +58,7 @@ var http = vertx.createHttpServer()
                 },
                 function(msg){
                     console.log('---sql status: '+msg.status+'---');
-                    req.response.end("<script>location.href = 'http://localhost:8080/main';</script>");
+                    req.response.end("<script>location.href = 'http://ryunwake.com/main';</script>");
                 }
             );
         });
