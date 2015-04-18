@@ -71,4 +71,4 @@ var http = vertx.createHttpServer()
         file = req.path();
         req.response.sendFile("../_clientside"+file);
     }
-}).listen(8080);
+}).listen(80);
