@@ -3,45 +3,7 @@ var console = require("vertx/console");
 var container = require('vertx/container');
 var eb = require("vertx/event_bus");
 
-var rm = new vertx.RouteMatcher();
-
 container.deployVerticle("init_database.js");
-
-// rm.get('/', function(req){
-//     req.response.sendFile("index.html");
-// });
-// rm.get('/signin', function(req){
-//     req.response.sendFile("signin.html");
-//
-//     //get Form data by 'POST' method
-//     req.expectMultiPart(true);
-//     req.endHandler(function(){
-//         var attrs = req.formAttributes();
-//         var em = attrs.get("em");
-//         var pw = attrs.get("pw");
-//
-//         q_signin("select * from user where email='"+em+"'", pw);
-//         // req.response().end("<script>location.href = 'https://www.google.co.kr';</script>")
-//         // req.response.putTrailer("Location", "https://www.google.co.kr");
-//     });
-// });
-// rm.get('/signup', function(req){
-//     req.response.sendFile("edit.html");
-//
-//     //get Form data by 'POST' method
-//     req.expectMultiPart(true);
-//     req.endHandler(function(){
-//         var attrs = req.formAttributes();
-//         var em = attrs.get("em");
-//         var pw = attrs.get("pw");
-//         var nk = attrs.get("nk");
-//
-//         q_signup("insert into user(email, password, nickname) values('"+em+"','"+pw+"','"+nk+"')");
-//     });
-// });
-// rm.get('/main', function(req){
-//     req.response.sendFile("main.html");
-// });
 
 //create Http server that listen port number 8080
 var http = vertx.createHttpServer()
@@ -51,7 +13,7 @@ var http = vertx.createHttpServer()
 .requestHandler(function(req){
     //route user by their uri
     if(req.path() === "/"){
-        req.response.sendFile("../_clientside/index.html");
+        req.response.sendFile("../_clientside/html/index.html");
     } else if(req.path() === "/signin"){
         //get Form data by 'POST' method
         req.expectMultiPart(true);
@@ -101,8 +63,11 @@ var http = vertx.createHttpServer()
             );
         });
     } else if(req.path() === "/main"){
-        req.response.sendFile("../_clientside/main.html");
-    } else{
+        req.response.sendFile("../_clientside/html/Main.html");
+    } else if(req.path().match(/.*.css/)){
+        file = req.path();
+        req.response.sendFile("../_clientside"+file);
+    } else if(req.path().match(/.*.png/)){
         file = req.path();
         req.response.sendFile("../_clientside"+file);
     }
