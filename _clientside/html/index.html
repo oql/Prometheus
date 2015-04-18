@@ -1,99 +1,58 @@
-<!-- need to fix architecture -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>index page</title>
-    <link rel="stylesheet" href="../css/Main.css">
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
     <form id="fm" method="POST">
-        <div class='member login'>
-            <div class='title logo'>
-                <a href="../Main.html"><img src="../src/Logo.png" height="70"></a>
+        <div class="member login">
+            <div class="title logo">
+                <a href="Main.html"><img src="../src/Logo.png" height="70"></a>
             </div>
-            <div class='panel'>
-                <table border="0" cellpadding="3" cellspacing="0" class='table'>
-                    <tr>
-                        <th id='small'>
-                            EMAIL :
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div><input style='width:100%'  type="email" name="em" maxLength=20 size=15 minlength="2" autofocus required></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th id='small'>
-                            PASSWORD :
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div><input style='width:100%'  type="password" name="pw" required maxLength=20 size=15 required></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th id="small">
-                            NICKNAME :
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <input id="nick" style='width:100%' name="nk" type=text maxLength=20 size=15>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="forsign">
-                            for sign-up
-                        </td>
-                    </tr>
-                </table>
+            <div class="panel">
+                <p class="email text">EMAIL : </p>
+                <div><input style='width:100%'  type="email" name="em" maxLength=20 size=15 minlength="2" autofocus required></div>
+                <p class="pw text">PASSWORD : </p>
+                <div><input style='width:100%'  type="password" name="pw" required maxLength=20 size=15 required></div>
+                <p class="nic text">NICKNAME : </p>
+                <div><input id="nick" style='width:100%' name="nk" type=text maxLength=20 size=15><p class= "bird"> for sign-up</p></div>
+                <div>
+                    <button class="signup" onclick="signup()" ><img src="../src/SignUp.png" height=30px;></button>
+                    <button class="signin" onclick="signin()" ><img src="../src/SignIn.png" height=30px;></button>
+                </div>
             </div>
-            <div>
-                <table id="but">
-                    <tr class="button">
-                        <td align=left><button id="button" onclick="signup()" ><img src="../src/SignUp.png" height=30px;></button></td>
-                        <td align=right><button id="button" onclick="signin()" ><img src="../src/SignIn.png" height=30px;></button></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </form>
-    <script>
-    var form = document.getElementById("fm");
-    var nick = document.getElementById("nick");
-
-    //signin button events( signin, enter )
-    function signin(){
-        form.action="/signin";
-        form.submit();
-    }
-
-    // ################################################################
-    // fatal error!!!!! after enter signin() it calls signup() function
-    // ################################################################
-    function enter(e){
-        if(e.keyCode == 13){
-            signin();
-            // prevent request twice
-            e.preventDefault();
-        }
-    }
-    window.addEventListener("keypress", enter);
-    //signup button event
-    function signup(){
-        if(nick.value == ""||nick.value==" "||nick.value==null){
-            alert("please input nickname");
-        }
-        else{
-            form.action="/signup";
+        </form>
+        <script>
+        var form = document.getElementById("fm");
+        var nick = document.getElementById("nick");
+        //signin button events( signin, enter )
+        function signin(){
+            form.action="/signin";
             form.submit();
         }
-    }
-    </script>
-</body>
-</html>
+        // ################################################################
+        // fatal error!!!!! after enter signin() it calls signup() function
+        // ################################################################
+        function enter(e){
+            if(e.keyCode == 13){
+                signin();
+                // prevent request twice
+                e.preventDefault();
+            }
+        }
+        window.addEventListener("keypress", enter);
+        //signup button event
+        function signup(){
+            if(nick.value == ""||nick.value==" "||nick.value==null){
+                alert("please input nickname");
+            }
+            else{
+                form.action="/signup";
+                form.submit();
+            }
+        }
+        </script>
+    </body>
+    </html>

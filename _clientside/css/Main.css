@@ -1,137 +1,58 @@
-/*need to apply less*/
 @charset "utf=8";
 
 body{
-        font-size:12px;
-        line-height:12px;
-        color:#5d5d5d;
-        background-color : #dff8eb;
-        text-align:center;
+    font-size:12px;
+    line-height:12px;
+    color:#5d5d5d;
+    background-color : #dff8eb;
+    text-align:center;
 }
-#in{
-        padding-top : 3px;
-        margin-right :2px;
+.logo{
+    margin-top : 200px;
+    margin-bottom : 50px;
 }
-#logo{
-        margin-top : 200px;
-        margin-bottom : 50px;
-}
-#uname{
-        height :40px;
-        background-color :  #21BDA9;
-        font-size : 25px;
-        font-family : 나눔고딕;
-}
-#name{
-        width : auto;
-        margin-right:20px;
-        padding-top:2px;
-        padding-bottom:2px;
-        float : right;
-}
-#hi
-{
-        font-size : 0.8em;
-}
-.member{
-        margin: auto;
-        width:350px;
-        background:rgba(255, 255, 255, 0.39);
-}
-.title{
-        margin-top : 60px;
-        margin-bottom : 40px;
-        padding:20px;
-        position:relative;
-}
-.panel{
-        margin:15px;
-        text-align:left;
-        background:rgba(255, 255, 255, 0.39);
-}
-.login{
-        margin-top:5%;
-        border:1px solid #aac4b7;
-}
-.table input[type="email"]{
-        height:25px;
-        line-height:auto;
-}
-.table input[type="password"]{
-        height:25px;
-        line-height:auto;
-}
-.table input[type="text"]{
-        height:25px;
-        line-height:auto;
-}
-.table{
-        width:100%;
-}
-.table .small{
-        padding-top:10px;
-        padding-bottom:2px;
-        position:relative;
-}
-.table #small .forgot {
-        position:absolute;
-        right:3px;
-        font-family:arial;
-        font-size:9px; color:#9f9f9f;
-        display:inline-block;
-        padding-left:3px;
-        padding-right:3px;
-        text-indent:0px;
-}
-.table .logo{
-        text-align:center;
-        padding:5px;
-}
-.small{
-        color:#3b3b3b;
-        font-size:15px;
-}
-#forsign
-{
-        align : center;
-}
-#button{
-        border: 0px;
-        background : none;
-        margin-bottom : 30px;
-        margin-left: 7px;
-        margin-right: 7px;
+.uname{
+    height :40px;
+    background-color :  #21BDA9;
+    margin-top :0px;
+    margin-right :0px;
+    margin-left : 0px;
+    font-family : 나눔고딕;
 }
 #srch{
-        background-color : #21BDA9;
-        margin: auto;
-        width:730px;
+    background-color : #21BDA9;
+    margin: auto;
+    width:730px;
 }
 #srch input[type="text"]{
-        border : none;
-        color : none;
-        margin : 10px;
-        height:50px;
-        width : 700px;
-        line-height:auto;
-        text-align : left;
-        font-size : 2em;
-        font-family : 나눔고딕;
+    border : none;
+    color : none;
+    margin : 10px;
+    height:50px;
+    width : 700px;
+    line-height:auto;
+    text-align : left;
+    font-size : 2em;
+    font-family : 나눔고딕;
+    outline-style : none;
 }
-#ps
+.ps
 {
-        margin-top : 30px;
-        color:#b1b1b1;
-        font-size : 1em;
+    margin-top : 30px;
+    color:#b1b1b1;
+    font-size : 1em;
 }
-#forsign
+.button
 {
-        color : #a2a2a2;
+    position : absolute;
+    top:12px;
+    right :20px;
 }
-#but
+.welcome
 {
-        cellpadding:0;
-        cellspacing:0;
-        border:0;
-        width:100%;
+    font-size : 1.65em;
+    position : absolute;
+    top:21px;
+    right :250px;
+    color : #3c3c3c
 }

@@ -1,0 +1,60 @@
+body{
+    font-size:12px;
+    line-height:12px;
+    color:#5d5d5d;
+    background-color : #dff8eb;
+    text-align:center;
+}
+.logo{
+    margin-top : 20px;
+    margin-bottom : 10px;
+}
+.uname{
+    height :40px;
+    background-color :  #21BDA9;
+    margin-top :0px;
+    margin-right :0px;
+    margin-left : 0px;
+    font-family : 나눔고딕;
+}
+.button
+{
+    position : absolute;
+    top:12px;
+    right :20px;
+}
+.welcome
+{
+    font-size : 1.65em;
+    position : absolute;
+    top:21px;
+    right :250px;
+    color : #3c3c3c
+}
+#section
+{
+    position : absolute;
+    top : 200px;
+    left : 200px;
+    text-align :center;
+}
+#docs
+{
+    position : relative;
+    top : 30px;
+    background-color : #f3f3f3;
+    border:10px solid #21BDA9;
+    outline-style : none;
+    overflow-y:scroll;
+    width:1200px;
+    height:500px;
+    font-size : 1.5em;
+    line-height:170%
+}
+#Title
+{
+    position : absolute;
+    font-size : 2em;
+    text-align : left;
+    font-family : sans-serif;
+}

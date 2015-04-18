@@ -6,29 +6,31 @@
     <title>Document</title>
     <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
     <script src="../js/vertxbus-2.1.js"></script>
+    <link rel="stylesheet" href="../css/edit.css">
 </head>
 <body>
     <!-- header need to same which in Main.html -->
     <header>
         <div id="usr">
-            <div id="uname">
-                <table id="name">
-                    <tr>
-                        <td id="hi">"Welcome name"</td>
-                        <td><a href="../src/info"><img src="../src/info.png"></a></td>
-                        <td><a href="Main2.html"><img src="../src/Out.png"></a></td>
-                    </tr>
-                </table>
+            <div class="uname">
+                <div class="welcome">"Welcome name!!"</div>
+                <div class="button">
+                    <a href="../src/info" ><img src="../src/info.png" class="info"></a>
+                    <a href="Main2.html" ><img src="../src/Out.png" class="out"></a>
+                </div>
             </div>
-            <div id="logo"><a href="Main.html"><img src="../src/Logo.png" width = 400px;></a></div>
+            <div class="logo"><a href="Main.html"><img src="../src/Logo.png" width = 400px;></a></div>
             <div id="isucnt"></div>
         </div>
     </header>
 
     <section>
         <button onclick="publish('ctos.text', 'hello!!!')">sss</button>
-        <!-- edit page -->
-        <div id="docs" contentEditable="true">selgkhseg</div>
+        <div id=section>
+            <div id="Title"> Make Title Please!! </div>
+            <!-- edit page -->
+            <div id="docs" contentEditable="true">설명</div>
+        </div>
     </section>
 
     <!-- footer need to same which in Main.html -->
