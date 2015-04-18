@@ -8,7 +8,7 @@ Using vertx2 for serverside.
 I will upgrade it when vertx3 is stabled and well documented.
 
 ###Signin and Signup
-I made simple signin and signup index page. Willing to add ssl and smtp auth functions.
+I made simple signin and signup index page. Willing to add https and smtp auth functions.
 
 ###Designing Main
 designing main page suit for our wiki
@@ -23,7 +23,7 @@ Users are free to choose what to use edit document.
 ### Public Tag
 Public tag is represented to classify documents by where it belongs.
 The fact that user can suggest and commit the tag by mass discussion is the reason I call this `tag function` as `public tag function`.
-It will help to organize document in practical, visual way. 
+It will help to organize document in practical, visual way.
 
 ### Version Control
 To protect document from **fucking vandalism** and to make document that watched by users stable it provides `Version Control` of document.

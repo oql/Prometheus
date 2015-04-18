@@ -5,23 +5,23 @@ var eb = require("vertx/event_bus");
 
 container.deployVerticle("init_database.js");
 
-//create Http server that listen port number 8080
+// create Http server that listen port number 8080
 var http = vertx.createHttpServer()
 .websocketHandler(function(ws){
-    //websocket handling
+    // websocket handling
 })
 .requestHandler(function(req){
-    //route user by their uri
+    // route user by their url request
     if(req.path() === "/"){
         req.response.sendFile("../_clientside/html/index.html");
     } else if(req.path() === "/signin"){
-        //get Form data by 'POST' method
+        // get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
             var attrs = req.formAttributes();
             var em = attrs.get("em");
             var pw = attrs.get("pw");
-
+            // send query
             eb.send(
                 'mysql.test',
                 {
@@ -42,14 +42,14 @@ var http = vertx.createHttpServer()
             );
         });
     } else if(req.path() === "/signup"){
-        //get Form data by 'POST' method
+        // get Form data by 'POST' method
         req.expectMultiPart(true);
         req.endHandler(function(){
             var attrs = req.formAttributes();
             var em = attrs.get("em");
             var pw = attrs.get("pw");
             var nk = attrs.get("nk");
-
+            // send query
             eb.send(
                 'mysql.test',
                 {
@@ -65,10 +65,16 @@ var http = vertx.createHttpServer()
     } else if(req.path() === "/main"){
         req.response.sendFile("../_clientside/html/Main.html");
     } else if(req.path().match(/.*.css/)){
-        file = req.path();
+        // css request handler
+        var file = req.path();
         req.response.sendFile("../_clientside"+file);
     } else if(req.path().match(/.*.png/)){
-        file = req.path();
+        // resource request handler
+        var file = req.path();
+        req.response.sendFile("../_clientside"+file);
+    } else if(req.path().match(/.*.js/)){
+        // javascript request handler
+        var file = req.path();
         req.response.sendFile("../_clientside"+file);
     }
 }).listen(80);
