@@ -18,16 +18,18 @@ function signin(req){
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
 
-                if(pw != msg.result[0].password){
+                if(msg.result[0] == null){
+                    console.log("--no user like that--");
+                    req.response.end("<script>location.href='"+url+"';alert('Invalid id or password');</script>");
+                }else if(pw != msg.result[0].password){
                     console.log("--incorrect!!--");
-                    req.response.end("<script>location.href='"+url+"';</script>");
+                    req.response.end("<script>location.href='"+url+"';alert('Invalid id or password');</script>");
                 } else{
                     console.log("###correct###");
                     req.response.end("<script>location.href='"+url+"/main';</script>");
                 }
             }
         );
-        return [em, nk];
     });
 }
 function signup(req){

@@ -13,46 +13,49 @@
             </div>
             <div class="panel">
                 <p class="email text">EMAIL : </p>
-                <div><input style='width:100%'  type="email" name="em" maxLength=20 size=15 minlength="2" autofocus required></div>
+                <div><input id="em" style='width:100%'  type="email" name="em" maxLength=20 size=15 minlength="2" autofocus required></div>
                 <p class="pw text">PASSWORD : </p>
-                <div><input style='width:100%'  type="password" name="pw" required maxLength=20 size=15 required></div>
+                <div><input id="pw" style='width:100%'  type="password" name="pw" required maxLength=20 size=15 required></div>
                 <p class="nic text">NICKNAME : </p>
-                <div><input id="nick" style='width:100%' name="nk" type=text maxLength=20 size=15><p class= "bird"> for sign-up</p></div>
+                <div><input id="nk" style='width:100%' name="nk" type=text maxLength=20 size=15><p class= "bird"> for sign-up</p></div>
                 <div>
                     <button class="signup" onclick="signup()" ><img src="../src/SignUp.png" height=30px;></button>
                     <button class="signin" onclick="signin()" ><img src="../src/SignIn.png" height=30px;></button>
                 </div>
             </div>
-        </form>
-        <script>
-        var form = document.getElementById("fm");
-        var nick = document.getElementById("nick");
-        //signin button events( signin, enter )
-        function signin(){
-            form.action="/signin";
+        </div>
+    </form>
+    <script>
+    var fm = document.getElementById("fm");
+    var em = document.getElementById("em");
+    var pw = document.getElementById("pw");
+    var nk = document.getElementById("nk");
+    //signin button events( signin, enter )
+    function signin(){
+        fm.action="/signin";
+        fm.submit();
+    }
+    // ################################################################
+    // fatal error!!!!! after enter signin() it calls signup() function
+    // ################################################################
+    function enter(e){
+        if(e.keyCode == 13){
+            signin();
+            // prevent request twice
+            e.preventDefault();
+        }
+    }
+    window.addEventListener("keypress", enter);
+    //signup button event
+    function signup(){
+        if(nk.value == ""||nk.value == null){
+            alert("please input nickname");
+        }
+        else{
+            form.action="/signup";
             form.submit();
         }
-        // ################################################################
-        // fatal error!!!!! after enter signin() it calls signup() function
-        // ################################################################
-        function enter(e){
-            if(e.keyCode == 13){
-                signin();
-                // prevent request twice
-                e.preventDefault();
-            }
-        }
-        window.addEventListener("keypress", enter);
-        //signup button event
-        function signup(){
-            if(nick.value == ""||nick.value==" "||nick.value==null){
-                alert("please input nickname");
-            }
-            else{
-                form.action="/signup";
-                form.submit();
-            }
-        }
-        </script>
-    </body>
-    </html>
+    }
+    </script>
+</body>
+</html>
