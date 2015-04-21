@@ -9,4 +9,4 @@ var config={
     database:'test'
 };
 
-container.deployModule('com.bloidonia~mod-jdbc-persistor~2.1', config);
+container.deployModule('com.bloidonia~mod-jdbc-persistor~2.1.3', config);

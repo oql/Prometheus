@@ -8,6 +8,7 @@ container.deployVerticle("init_database.js");
 load('sign.js');
 
 eb.registerHandler("ctos.text", function(msg){
+    console.log("get published ctos.text");
     // parse msg(json) title, text
     // get it into database
 });
@@ -28,18 +29,19 @@ var httpserver = vertx.createHttpServer()
     case "/edit":
         req.response.sendFile("../_clientside/html/edit.html");     break;
     default:
-        if(req.path().match(/.*.css/)){
-            // css request handler
+        if(req.path().match(/.*.css/)){             // css request handler
+            var file = req.path();
+            req.response.putHeader("Content-Type", "text/css");
+            req.response.sendFile("../_clientside"+file);
+        } else if(req.path().match(/.*.png/)){      // resource request handler
             var file = req.path();
             req.response.sendFile("../_clientside"+file);
-        } else if(req.path().match(/.*.png/)){
-            // resource request handler
+        } else if(req.path().match(/.*.js/)){       // javascript request handler
             var file = req.path();
+            req.response.putHeader("Content-Type", "text/js");
             req.response.sendFile("../_clientside"+file);
-        } else if(req.path().match(/.*.js/)){
-            // javascript request handler
-            var file = req.path();
-            req.response.sendFile("../_clientside"+file);
+        } else{                                     // page and resource not found(404)
+            req.response.sendFile("../_clientside/html/404NF.html");
         }
     }
 });

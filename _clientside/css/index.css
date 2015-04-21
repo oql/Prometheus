@@ -21,8 +21,8 @@ body
 }
 .text
 {
-    color :#000000;
-    font-family : 나눔고딕;
+        color :#000000;
+        font-family : 나눔고딕;
 }
 .title
 {
@@ -62,16 +62,18 @@ body
 }
 .signin, .signup
 {
-    margin-top : 5px;
-    border: 0px;
-    background : none;
-    outline-style : none;
+        position : relative;
+        top : 5px;
+        border: 0px;
+        background : none;
+        outline-style : none;
 }
 .signin
 {
-    margin-left :43%;
+        position : relative;
+        left :145px;
 }
 .bird
 {
-    text-align : right;
+        text-align : right;
 }

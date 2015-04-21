@@ -7,6 +7,7 @@ function signin(req){
         var attrs = req.formAttributes();
         var em = attrs.get("em");
         var pw = attrs.get("pw");
+        // var nk = attrs.get("nk");
         // send query
         eb.send(
             'mysql.test',
@@ -26,6 +27,7 @@ function signin(req){
                 }
             }
         );
+        return [em, nk];
     });
 }
 function signup(req){
