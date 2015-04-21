@@ -20,10 +20,10 @@ function signin(req){
 
                 if(msg.result[0] == null){
                     console.log("--no user like that--");
-                    req.response.end("<script>location.href='"+url+"';alert('Invalid id or password');</script>");
+                    req.response.end("<script>location.href='"+url+"';</script>");
                 }else if(pw != msg.result[0].password){
                     console.log("--incorrect!!--");
-                    req.response.end("<script>location.href='"+url+"';alert('Invalid id or password');</script>");
+                    req.response.end("<script>location.href='"+url+"';</script>");
                 } else{
                     console.log("###correct###");
                     req.response.end("<script>location.href='"+url+"/main';</script>");

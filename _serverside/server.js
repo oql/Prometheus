@@ -16,7 +16,7 @@ eb.registerHandler("ctos.text", function(msg){
 // create Http server that listen port number 8080
 var httpserver = vertx.createHttpServer()
 .requestHandler(function(req){
-    // route user by their url request
+    // route user by their uri request
     switch(req.path()){
     case "/":
         req.response.sendFile("../_clientside/html/index.html");    break;
@@ -29,22 +29,25 @@ var httpserver = vertx.createHttpServer()
     case "/edit":
         req.response.sendFile("../_clientside/html/edit.html");     break;
     default:
-        if(req.path().match(/.*.css/)){             // css request handler
-            var file = req.path();
-            req.response.putHeader("Content-Type", "text/css");
-            req.response.sendFile("../_clientside"+file);
-        } else if(req.path().match(/.*.png/)){      // resource request handler
-            var file = req.path();
-            req.response.sendFile("../_clientside"+file);
-        } else if(req.path().match(/.*.js/)){       // javascript request handler
-            var file = req.path();
-            req.response.putHeader("Content-Type", "text/js");
-            req.response.sendFile("../_clientside"+file);
-        } else{                                     // page and resource not found(404)
-            req.response.sendFile("../_clientside/html/404NF.html");
-        }
+        sendSrc(req);   break;
     }
 });
+
+function sendSrc(req){
+    if(req.path().match(/.*.css/)){             // css request handler
+        var file = req.path();
+        req.response.putHeader("Content-Type", "text/css");
+        req.response.sendFile("../_clientside"+file);
+    } else if(req.path().match(/.*.png/)){      // resource request handler
+        var file = req.path();
+        req.response.sendFile("../_clientside"+file);
+    } else if(req.path().match(/.*.js/)){       // javascript request handler
+        var file = req.path();
+        req.response.sendFile("../_clientside"+file);
+    } else{                                     // page and resource not found(404)
+        req.response.sendFile("../_clientside/html/404NF.html");
+    }
+}
 
 // Create a SockJS bridge which lets everything through (be careful!)
 vertx.createSockJSServer(httpserver).bridge({prefix: "/eventbus"},
@@ -52,7 +55,7 @@ vertx.createSockJSServer(httpserver).bridge({prefix: "/eventbus"},
     {
     }
 ],
-[   // comint to
+[   // coming to
     {
     }
 ]
