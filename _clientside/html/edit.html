@@ -64,8 +64,8 @@
     function publish(address, tl, tx) {
         console.log("publish----------------");
         if (eb) {
-            var json = {"title": tl,"text": tx};
-            eb.publish(address, json);
+            var content = {"title": tl,"text": tx};
+            eb.publish(address, content);
         }
     }
     </script>

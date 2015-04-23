@@ -1,13 +1,12 @@
-const config = {
-    // database
-        // user name
-        // password
-        // database
+const database = {
+    "user":'root',
+    "password":'321654',
+    "database":'test'
+};
 
-    // url and thing thing
-        // url
-    // key path key password
-        // path
-        // password
-    // port
-}
+const server = {
+    "port": 443,
+    "keyStorePath": "keys/testkey.jks",
+    "keyStorePassword": "321654",
+    "url": "https://localhost"
+};

@@ -5,6 +5,7 @@ var eb = require("vertx/event_bus");
 
 container.deployVerticle("init_database.js");
 
+load('config.js');
 load('sign.js');
 
 eb.registerHandler("ctos.text", function(msg){
@@ -43,8 +44,8 @@ var httpserver = vertx.createHttpServer()
     }
 })
 .ssl(true)
-.keyStorePath('keys/testkey.jks')
-.keyStorePassword('321654');
+.keyStorePath(server['keyStorePath'])
+.keyStorePassword(server['keyStorePassword']);
 
 function sendSrc(req){
     if(req.path().match(/.*.css/)){             // css request handler
@@ -74,4 +75,4 @@ vertx.createSockJSServer(httpserver).bridge({prefix: "/eventbus"},
 ]
 );
 
-httpserver.listen(443);
+httpserver.listen(server['port']);

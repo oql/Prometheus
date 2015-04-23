@@ -1,5 +1,3 @@
-const url = "https://localhost";
-
 function signin(req){
     // get Form data by 'POST' method
     req.expectMultiPart(true);
@@ -20,13 +18,13 @@ function signin(req){
 
                 if(msg.result[0] == null){
                     console.log("--no user like that--");
-                    req.response.end("<script>location.href='"+url+"';</script>");
+                    req.response.end("<script>location.href='"+server['url']+"';</script>");
                 }else if(pw != msg.result[0].password){
                     console.log("--incorrect!!--");
-                    req.response.end("<script>location.href='"+url+"';</script>");
+                    req.response.end("<script>location.href='"+server['url']+"';</script>");
                 } else{
                     console.log("###correct###");
-                    req.response.end("<script>location.href='"+url+"/main';</script>");
+                    req.response.end("<script>location.href='"+server['url']+"/main';</script>");
                 }
             }
         );
@@ -49,7 +47,7 @@ function signup(req){
             },
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
-                req.response.end("<script>location.href = '"+url+"main';</script>");
+                req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
             }
         );
     });
