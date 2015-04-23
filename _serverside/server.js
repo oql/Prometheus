@@ -9,8 +9,18 @@ load('sign.js');
 
 eb.registerHandler("ctos.text", function(msg){
     console.log("get published ctos.text");
-    // parse msg(json) title, text
-    // get it into database
+    var title = msg['title'];
+    var text = msg['text'];
+    eb.send(
+        'mysql.test',
+        {
+            action: 'insert',
+            stmt: "insert into documents(title, text) values ('"+title+"','"+text+"')"
+        },
+        function(msg){
+            console.log('---sql status: '+msg.status+'---');
+        }
+    );
 });
 
 // create Http server that listen port number 8080
@@ -31,7 +41,10 @@ var httpserver = vertx.createHttpServer()
     default:
         sendSrc(req);   break;
     }
-});
+})
+.ssl(true)
+.keyStorePath('keys/testkey.jks')
+.keyStorePassword('321654');
 
 function sendSrc(req){
     if(req.path().match(/.*.css/)){             // css request handler
@@ -61,4 +74,4 @@ vertx.createSockJSServer(httpserver).bridge({prefix: "/eventbus"},
 ]
 );
 
-httpserver.listen(80);
+httpserver.listen(443);

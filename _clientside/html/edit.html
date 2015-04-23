@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
     <script src="../js/vertxbus-2.1.js"></script>
     <link rel="stylesheet" href="../css/edit.css">
 </head>
@@ -24,9 +24,9 @@
         </div>
     </header>
     <section>
-        <button onclick="publish('ctos.text', 'hello!!!')">sss</button>
+        <button onclick="sendText()">sss</button>
         <div id=section>
-            <div id="Title"> Make Title Please!! </div>
+            <div id="Title" contentEditable="true">Make Title Please!!</div>
             <!-- edit page -->
             <div id="docs" contentEditable="true">설명</div>
         </div>
@@ -38,24 +38,34 @@
     </footer>
 
     <script>
-    var eb = new vertx.EventBus("http://localhost/eventbus");
+    function sendText(){
+        var docs = document.getElementById("docs");
+        var title = document.getElementById("Title");
+        var tx = docs.innerHTML;
+        var tl = title.innerHTML;
+        publish('ctos.text', tl, tx);
+    }
+
+    var eb = new vertx.EventBus("https://localhost/eventbus");
 
     eb.onopen = function() {};
     eb.onclose = function() {
         eb = null;
     };
 
-    function publish(address,  message) {
-        console.log("publish----------------");
-        if (eb) {
-            var json = {text: message};
-            eb.publish(address, json);
-        }
-    }
+
     function subscribe(address) {
         if (eb) {
             eb.registerHandler(address, function(msg, replyTo) {
             });
+        }
+    }
+
+    function publish(address, tl, tx) {
+        console.log("publish----------------");
+        if (eb) {
+            var json = {"title": tl,"text": tx};
+            eb.publish(address, json);
         }
     }
     </script>
