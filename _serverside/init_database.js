@@ -3,9 +3,9 @@ var container = require('vertx/container');
 load("config.js");
 
 var config={
-    address:'mysql.test',
-    driver:'com.mysql.jdbc.Driver',
-    url:'jdbc:mysql://localhost:3306/test',
+    address:'maria.io',
+    driver:'org.mariadb.jdbc.Driver',
+    url:'jdbc:mysql://localhost:3306/'+database['database'],
     username: database['user'],
     password: database['password'],
     database: database['database']
