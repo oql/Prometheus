@@ -2,10 +2,12 @@ var vertx = require("vertx");
 var console = require("vertx/console");
 var container = require('vertx/container');
 var eb = require("vertx/event_bus");
-
-container.deployVerticle("init_database.js");
+var eb2 = require("vertx/event_bus");
+var timer = require("vertx/timer");
+// var eb2 = require("vertx/event_bus");
 
 load('config.js');
+load("init_database.js");
 load('sign.js');
 load('static_file.js');
 load('eb_register.js');
@@ -15,17 +17,19 @@ var httpserver = vertx.createHttpServer()
 .requestHandler(function(req){
     // route user by their uri request
     switch(req.path()){
-    case "/":
+        case "/":
         req.response.sendFile("../_clientside/html/index.html");    break;
-    case "/signin":
-        signin(req);    break;
-    case "/signup":
+        case "/signin":
+        signin(req, eb);    break;
+        case "/signup":
         signup(req);    break;
-    case "/main":
+        case "/signout":
+        signout(req);   break;
+        case "/main":
         req.response.sendFile("../_clientside/html/Main.html");     break;
-    case "/edit":
+        case "/edit":
         req.response.sendFile("../_clientside/html/edit.html");     break;
-    default:
+        default:
         sendSrc(req);   break;
     }
 })

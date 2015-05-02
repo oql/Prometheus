@@ -10,3 +10,5 @@ const server = {
     "keyStorePassword": "321654",
     "url": "https://localhost"
 };
+
+// add redis
