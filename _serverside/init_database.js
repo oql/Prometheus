@@ -9,15 +9,15 @@ var conf_maria={
 
 container.deployModule('com.bloidonia~mod-jdbc-persistor~2.1.3', conf_maria);
 
-// var conf_redis = {
-//     'address': 'redis.io',
-//     'host': 'localhost',
-//     'port': 6379,
-//     'encoding': 'UTF-8',
-//     'auth': '321654'
-// };
-//
-// container.deployModule('io.vertx~mod-redis~1.1.4', conf_redis);
+var conf_redis = {
+    'address': 'redis.io',
+    'host': 'localhost',
+    'port': 6379,
+    'encoding': 'UTF-8',
+    'auth': '321654'
+};
+
+container.deployModule('io.vertx~mod-redis~1.1.4', conf_redis);
 
 // var conf_mongo = {
 //     "address": 'mongo.io',
@@ -36,13 +36,13 @@ container.deployModule('com.bloidonia~mod-jdbc-persistor~2.1.3', conf_maria);
 //
 // container.deployModule('mongo-persistor', conf_mongo);
 
-var conf_session = {
-    address: "session.manager",
-    timeout: 15 * 60 * 1000,
-    cleaner: "session.cleaner",
-    prefix: "session-client."
-};
-
-container.deployModule('com.campudus~session-manager~2.0.1-final', conf_session, function(msg){
-    console.log("------------------------"+msg.status+"---------------------");
-});
+// var conf_session = {
+//     address: "sesn.mn",
+//     timeout: 15 * 60 * 1000,
+//     cleaner: "sesn.cln",
+//     prefix: "sesn-client."
+// };
+//
+// container.deployModule('com.campudus~session-manager~2.0.1-final', conf_session, function(msg){
+//     ;
+// });

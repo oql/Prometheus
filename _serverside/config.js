@@ -1,7 +1,7 @@
 const database = {
     "user.maria":'root',
     "password.maria":'321654',
-    "database.maria":'test',
+    "database.maria":'prom',
     // "user.mongo":'root',
     // "password.mongo":'321654',
     // "database.mongo":'test',

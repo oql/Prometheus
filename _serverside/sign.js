@@ -17,30 +17,19 @@ function signin(req){
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
 
-                var nk = msg.result[0].nickname;
-
-                if(msg.result[0] == null){
+                if(msg.status=='error'){
+                    console.log("---------------denied-------------------");
+                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
+                } else if(msg.result[0] == null){
                     console.log("--no user like that--");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
-                    return;
-                }else if(pw != msg.result[0].password){
+                } else if(pw != msg.result[0].password){
                     console.log("--incorrect!!--");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
-                    return;
-                } else{
+                } else if(pw == msg.result[0].password){
                     console.log("###correct###");
-                    eb.send(
-                        'session.manager',
-                        {
-                            action: 'start',
-                        },
-                        function(msg){
-                            console.log('---session status: '+msg.status+'---');
-                            console.log('---session id: '+msg.sessionId+"---");
-                            req.response.end("<script>location.href='"+server['url']+"/main';</script>");
-                        }
-                    );
-                    return;
+                    var nk = msg.result[0].nickname;
+                    createSession(nk, req);
                 }
             }
         );
@@ -64,20 +53,12 @@ function signup(req){
             },
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
-                //
-                eb2.send(
-                    'redis.io',
-                    {
-                        // key should be hash code
-                        command: "set",
-                        args: [nk, em]
-                    },
-                    function(msg2){
-                        console.log('---redis status: '+msg.status+'---');
-                    }
-                );
-                //
-                req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
+                if(msg.status == 'ok'){
+                    createSession(nk, req);
+                } else {
+                    console.log("---------------denied-------------------");
+                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
+                }
             }
         );
     });
@@ -103,4 +84,53 @@ function check_auth(req){
 
         }
     );
+}
+function remove_user(req){
+    eb.send(
+        'maria.io',
+        {
+
+        },
+        function(msg){
+
+        }
+    );
+}
+
+function createSession(nk, req){
+    uuid = generateUUID();
+    console.log("------------"+uuid+"----------");
+    eb.send(
+        'redis.io',
+        {
+            command: "set",
+            args: [nk, 'ok']
+        },
+        function(msg){
+            if(msg.status == 'ok'){
+                eb.send(
+                    'redis.io',
+                    {
+                        command: "expire",
+                        args: [nk, 10]
+                    },
+                    function(msg){
+                        console.log("-----------"+msg.status+"----------");
+                        req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+                    }
+                );
+            }
+        }
+    );
+}
+
+function generateUUID() {
+    var d = new Date().getTime();
+    console.log("-----------"+d+"------------");
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
 }

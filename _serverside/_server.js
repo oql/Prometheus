@@ -2,7 +2,6 @@ var vertx = require("vertx");
 var console = require("vertx/console");
 var container = require('vertx/container');
 var eb = require("vertx/event_bus");
-var eb2 = require("vertx/event_bus");
 var timer = require("vertx/timer");
 // var eb2 = require("vertx/event_bus");
 
