@@ -14,22 +14,32 @@ load('eb_register.js');
 // create Http server that listen port number 8080
 var httpserver = vertx.createHttpServer()
 .requestHandler(function(req){
+    console.log("############# request #############");
     // route user by their uri request
     switch(req.path()){
         case "/":
-        req.response.sendFile("../_clientside/html/index.html");    break;
+            req.response.sendFile("../_clientside/html/index.html");    break;
         case "/signin":
-        signin(req, eb);    break;
+            signin(req, eb);    break;
         case "/signup":
-        signup(req);    break;
+            signup(req);    break;
         case "/signout":
-        signout(req);   break;
+            signout(req);   break;
         case "/main":
-        req.response.sendFile("../_clientside/html/Main.html");     break;
+            check_auth(req, cb_auth, function(auth){
+                console.log(auth+'--');
+                if(auth==true){
+                    req.response.sendFile("../_clientside/html/main.html");
+                }else if(auth==false){
+                    console.log("auth failed--------------------");
+                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
+                }
+            });
+            break;
         case "/edit":
-        req.response.sendFile("../_clientside/html/edit.html");     break;
+            req.response.sendFile("../_clientside/html/edit.html");     break;
         default:
-        sendSrc(req);   break;
+            sendSrc(req);   break;
     }
 })
 .ssl(true)

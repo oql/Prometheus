@@ -29,7 +29,7 @@ function signin(req){
                 } else if(pw == msg.result[0].password){
                     console.log("###correct###");
                     var nk = msg.result[0].nickname;
-                    createSession(nk, req);
+                    createSession(req);
                 }
             }
         );
@@ -54,7 +54,7 @@ function signup(req){
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
                 if(msg.status == 'ok'){
-                    createSession(nk, req);
+                    createSession(req);
                 } else {
                     console.log("---------------denied-------------------");
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
@@ -74,17 +74,46 @@ function signout(req){
         }
     );
 }
-function check_auth(req){
+function check_auth(req, cb, cb_inside){
+    var uuid = getCookie(req);
+    console.log("from cookie uuid is: "+uuid);
     eb.send(
         'redis.io',
         {
-
+            command: "get",
+            args: [uuid]
         },
         function(msg){
-
+            if(msg.status == 'ok'){
+                console.log("auth redis value : "+msg.value);
+                if(msg.value == 'ok'){
+                    eb.send(
+                        'redis.io',
+                        {
+                            command: "expire",
+                            args: [uuid, 10*60]
+                        },
+                        function(msg){
+                            console.log("-----------"+msg.status+"----------");
+                            cb(true, cb_inside);
+                            console.log("after callback");
+                        }
+                    );
+                }else{
+                    cb(false, cb_inside);
+                    console.log("after callback");
+                }
+            }
         }
     );
 }
+
+function cb_auth(auth, cb_inside){
+    console.log("cb_auth called");
+    cb_inside(auth);
+}
+
+
 function remove_user(req){
     eb.send(
         'maria.io',
@@ -97,36 +126,78 @@ function remove_user(req){
     );
 }
 
-function createSession(nk, req){
+function createSession(req){
     uuid = generateUUID();
     console.log("------------"+uuid+"----------");
     eb.send(
         'redis.io',
         {
-            command: "set",
-            args: [nk, 'ok']
+            command: "get",
+            args: [uuid]
         },
         function(msg){
-            if(msg.status == 'ok'){
+            console.log("----"+msg.value+"----");
+            if(msg.value==null){
                 eb.send(
                     'redis.io',
                     {
-                        command: "expire",
-                        args: [nk, 10]
+                        command: "set",
+                        args: [uuid, 'ok']
                     },
                     function(msg){
-                        console.log("-----------"+msg.status+"----------");
-                        req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+                        if(msg.status == 'ok'){
+                            eb.send(
+                                'redis.io',
+                                {
+                                    command: "expire",
+                                    args: [uuid, 10*60]
+                                },
+                                function(msg){
+                                    console.log("-----------"+msg.status+"----------");
+                                    setCookie(req, uuid);
+                                    // req.response.putHeader('Set-Cookie','id=hi;HttpOnly');
+                                    req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+                                }
+                            );
+                        }else{
+                            return createSession(req);
+                        }
                     }
                 );
+            }else{
+                return createSession(req);
             }
         }
     );
 }
 
+function setCookie(req, uuid){
+    // req.response.putHeader('Set-Cookie','id=hi;HttpOnly');
+    req.response.putHeader('Set-Cookie','id='+uuid+';HttpOnly');
+    console.log("setcookie");
+}
+function getCookie(req){
+    var header = req.headers();
+    var cookie=header.get('Cookie');
+    var uuid = null;
+
+    if(cookie != null){
+        cookie = cookie.split("=");
+        for(var i in cookie){
+            cookie[i].trim();
+        }
+        for(var i in cookie){
+            if(cookie[i]=='id'){
+                uuid = cookie[Number(i)+1];
+            }
+        }
+        return uuid;
+    }
+    return null;
+}
+
 function generateUUID() {
     var d = new Date().getTime();
-    console.log("-----------"+d+"------------");
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
         d = Math.floor(d/16);
