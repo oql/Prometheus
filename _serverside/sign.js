@@ -17,32 +17,30 @@ function signin(req){
             function(msg){
                 console.log('---sql status: '+msg.status+'---');
 
-                var nickname = msg.result[0].nickname;
+                var nk = msg.result[0].nickname;
 
                 if(msg.result[0] == null){
                     console.log("--no user like that--");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
-                    // return;
+                    return;
                 }else if(pw != msg.result[0].password){
                     console.log("--incorrect!!--");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
-                    // return;
+                    return;
                 } else{
                     console.log("###correct###");
                     eb.send(
-                        'redis.io',
+                        'session.manager',
                         {
-                            // key should be hash code
-                            command: "mset",
-                            key: [nickname, em]
+                            action: 'start',
                         },
                         function(msg){
-                            console.log('---redis status: '+msg.status+'---');
+                            console.log('---session status: '+msg.status+'---');
+                            console.log('---session id: '+msg.sessionId+"---");
                             req.response.end("<script>location.href='"+server['url']+"/main';</script>");
-                            // return;
                         }
                     );
-                    // return;
+                    return;
                 }
             }
         );
