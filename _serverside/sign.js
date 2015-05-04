@@ -173,7 +173,7 @@ function createSession(req){
 
 function setCookie(req, uuid){
     // req.response.putHeader('Set-Cookie','id=hi;HttpOnly');
-    req.response.putHeader('Set-Cookie','id='+uuid+';HttpOnly');
+    req.response.putHeader('Set-Cookie','id='+uuid+'; Path=/; HttpOnly; Secure');
     console.log("setcookie");
 }
 function getCookie(req){
