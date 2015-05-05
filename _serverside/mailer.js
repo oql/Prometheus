@@ -75,14 +75,15 @@ function sendAuthMail(req){
 
 function checkMailCode(req){
     console.log("from here is checkMailCode==============");
-    req.expectMultiPart(true);
+    // req.expectMultiPart(true);
     req.endHandler(function(){
         console.log("here is endhandler====================");
+        var code = req.query().split("=")[1];
         var em = null;
         var nk = null;
         var uuid = getCookieUUID(req);
-        var attrs = req.formAttributes();
-        var code = attrs.get("code");
+        // var attrs = req.formAttributes();
+        // var code = attrs.get("code");
         console.log("code(checkMailCode()): "+code);
         eb.send(
             'redis.io',
