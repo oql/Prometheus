@@ -82,7 +82,7 @@ function remove_user(req){
         },
         function(msg){
             if(msg.value==null){
-                console.log("failed to get session(remove_user): ");
+                console.log("failed to get session(remove_user()): ");
                 req.response.end("<script>location.href='"+server['url']+"/main';</script>");
             }else{
                 nk = msg.value;

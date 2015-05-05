@@ -35,9 +35,29 @@ var httpserver = vertx.createHttpServer()
             signup(req);    break;
         case "/signout":
             signout(req);   break;
-        case "/ru":
-            remove_user(req);
+        case "/mailauth":
+            check_auth(req, function(auth){
+                console.log('auth(server.js): '+auth);
+                if(auth==true){
+                    sendAuthMail(req);
+                    req.response.sendFile("../_clientside/html/auth.html");
+                }else if(auth==false){
+                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
+                }
+            });
             break;
+        case "/checkcode":
+            check_auth(req, function(auth){
+                console.log('auth(server.js): '+auth);
+                if(auth==true){
+                    checkMailCode(req);
+                }else if(auth==false){
+                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
+                }
+            });
+            break;
+        case "/ru":
+            remove_user(req);   break;
         case "/main":
             check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);

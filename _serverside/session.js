@@ -78,6 +78,10 @@ function createSession(req, key_value){
     );
 }
 
+function createAuthSession(req){
+
+}
+
 function removeSession(req){
     uuid = getCookieUUID(req);
     if(uuid != null){
