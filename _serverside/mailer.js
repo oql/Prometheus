@@ -29,7 +29,7 @@ function sendAuthMail(req){
                     {
                         action: 'select',
                         stmt: "select from user where nickname=?",
-                        value: [[nk]]
+                        values: [[nk]]
                     },
                     function(msg){
                         if(msg.status == 'ok'){
@@ -74,10 +74,13 @@ function sendAuthMail(req){
 }
 
 function checkMailCode(req){
+    console.log("from here is checkMailCode==============");
     req.expectMultiPart(true);
     req.endHandler(function(){
+        console.log("here is endhandler====================");
         var attrs = req.formAttributes();
         var code = attrs.get("code");
+        var em = null;
         var nk = null;
         var uuid = getCookieUUID(req);
         eb.send(
@@ -93,7 +96,7 @@ function checkMailCode(req){
                     {
                         action: 'select',
                         stmt: "select from user where nickname=?",
-                        value: [[nk]]
+                        values: [[nk]]
                     },
                     function(msg){
                         if(msg.status == 'ok'){
@@ -110,12 +113,12 @@ function checkMailCode(req){
                                             'maria.io',
                                             {
                                                 action: 'update',
-                                                stmt: "update user set(authed=true) where nickname=?",
+                                                stmt: "update user set(authed='true') where nickname=?",
                                                 value: [[nk]]
                                             },
                                             function(msg){
                                                 if(msg.status == 'ok'){
-                                                    
+                                                    req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
                                                 }
                                             }
                                         );
