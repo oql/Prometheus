@@ -2,11 +2,12 @@ var vertx = require("vertx");
 var console = require("vertx/console");
 var container = require('vertx/container');
 var eb = require("vertx/event_bus");
-var timer = require("vertx/timer");
+// var timer = require("vertx/timer");
 // var eb2 = require("vertx/event_bus");
 
 load('config.js');
 load("init_database.js");
+load("mailer.js")
 load("session.js");
 load('sign.js');
 load('static_file.js');
@@ -50,8 +51,7 @@ var httpserver = vertx.createHttpServer()
         case "/edit":
             req.response.sendFile("../_clientside/html/edit.html");     break;
         default:
-            sendSrc(req);
-            break;
+            sendSrc(req);   break;
     }
 })
 .ssl(true)
