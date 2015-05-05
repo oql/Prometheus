@@ -98,7 +98,8 @@ function checkMailCode(req){
                     'maria.io',
                     {
                         action: 'select',
-                        stmt: "select * from user where nickname='"+nk+"'"
+                        stmt: "select * from user where nickname=?",
+                        values: nk
                     },
                     function(msg){
                         if(msg.status == 'ok'){
@@ -111,6 +112,7 @@ function checkMailCode(req){
                                     args: [em]
                                 },
                                 function(msg){
+                                    console.log("code value from redis(checkMailCode()): "+msg.value);
                                     if(msg.value == code){
                                         eb.send(
                                             'maria.io',
