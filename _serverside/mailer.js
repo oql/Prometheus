@@ -75,10 +75,11 @@ function sendAuthMail(req){
 
 function checkMailCode(req){
     console.log("from here is checkMailCode==============");
-    req.expectMultiPart(true);
+    req.expectMultiPart(true, function(){
+        var attrs = req.formAttributes();
+    });
     req.endHandler(function(){
         console.log("here is endhandler====================");
-        var attrs = req.formAttributes();
         var code = attrs.get("code");
         var em = null;
         var nk = null;
