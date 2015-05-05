@@ -28,7 +28,7 @@ function sendAuthMail(req){
                     'maria.io',
                     {
                         action: 'select',
-                        stmt: "select from user where nickname=?",
+                        stmt: "select * from user where nickname=?",
                         values: [[nk]]
                     },
                     function(msg){
@@ -95,7 +95,7 @@ function checkMailCode(req){
                     'maria.io',
                     {
                         action: 'select',
-                        stmt: "select from user where nickname=?",
+                        stmt: "select * from user where nickname=?",
                         values: [[nk]]
                     },
                     function(msg){

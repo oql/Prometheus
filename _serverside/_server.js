@@ -47,14 +47,15 @@ var httpserver = vertx.createHttpServer()
             });
             break;
         case "/checkcode":
-            check_auth(req, function(auth){
-                console.log('auth(server.js): '+auth);
-                if(auth==true){
-                    checkMailCode(req);
-                }else if(auth==false){
-                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
-                }
-            });
+            // check_auth(req, function(auth){
+            //     console.log('auth(server.js): '+auth);
+            //     if(auth==true){
+            //         checkMailCode(req);
+            //     }else if(auth==false){
+            //         req.response.end("<script>location.href = '"+server['url']+"';</script>");
+            //     }
+            // });
+            checkMailCode(req);
             break;
         case "/ru":
             remove_user(req);   break;
