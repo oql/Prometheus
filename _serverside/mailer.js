@@ -93,6 +93,7 @@ function checkMailCode(req){
             },
             function(msg){
                 nk = msg.value;
+                console.log("gotten nickname(checkMailCode()): "+ nk);
                 eb.send(
                     'maria.io',
                     {
