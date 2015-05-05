@@ -75,62 +75,62 @@ function sendAuthMail(req){
 
 function checkMailCode(req){
     console.log("from here is checkMailCode==============");
-    req.expectMultiPart(true, function(){
+    req.expectMultiPart(true);
+    req.endHandler(function(){
+        console.log("here is endhandler====================");
+        var em = null;
+        var nk = null;
+        var uuid = getCookieUUID(req);
         var attrs = req.formAttributes();
-        req.endHandler(function(){
-            console.log("here is endhandler====================");
-            var code = attrs.get("code");
-            var em = null;
-            var nk = null;
-            var uuid = getCookieUUID(req);
-            eb.send(
-                'redis.io',
-                {
-                    command: "get",
-                    args: [uuid]
-                },
-                function(msg){
-                    nk = msg.value;
-                    eb.send(
-                        'maria.io',
-                        {
-                            action: 'select',
-                            stmt: "select * from user where nickname=?",
-                            values: [[nk]]
-                        },
-                        function(msg){
-                            if(msg.status == 'ok'){
-                                em = msg.result[0].email;
-                                eb.send(
-                                    'redis.io',
-                                    {
-                                        command: "get",
-                                        args: [em]
-                                    },
-                                    function(msg){
-                                        if(msg.value == code){
-                                            eb.send(
-                                                'maria.io',
-                                                {
-                                                    action: 'update',
-                                                    stmt: "update user set(authed='true') where nickname=?",
-                                                    value: [[nk]]
-                                                },
-                                                function(msg){
-                                                    if(msg.status == 'ok'){
-                                                        req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
-                                                    }
+        var code = attrs.get("code");
+        console.log("code(checkMailCode()): "+code);
+        eb.send(
+            'redis.io',
+            {
+                command: "get",
+                args: [uuid]
+            },
+            function(msg){
+                nk = msg.value;
+                eb.send(
+                    'maria.io',
+                    {
+                        action: 'select',
+                        stmt: "select * from user where nickname=?",
+                        values: [[nk]]
+                    },
+                    function(msg){
+                        if(msg.status == 'ok'){
+                            em = msg.result[0].email;
+                            eb.send(
+                                'redis.io',
+                                {
+                                    command: "get",
+                                    args: [em]
+                                },
+                                function(msg){
+                                    if(msg.value == code){
+                                        eb.send(
+                                            'maria.io',
+                                            {
+                                                action: 'update',
+                                                stmt: "update user set(authed='true') where nickname=?",
+                                                value: [[nk]]
+                                            },
+                                            function(msg){
+                                                if(msg.status == 'ok'){
+                                                    req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
                                                 }
-                                            );
-                                        }
+                                            }
+                                        );
                                     }
-                                );
-                            }
+                                }
+                            );
                         }
-                    );
-                }
-            );
-        });
+                    }
+                );
+            }
+        );
     });
 }
 
