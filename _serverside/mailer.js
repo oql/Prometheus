@@ -118,7 +118,8 @@ function checkMailCode(req){
                                             'maria.io',
                                             {
                                                 action: 'update',
-                                                stmt: "update user set authed='true' where nickname='"+nk+"'"
+                                                stmt: "update user set authed='true' where nickname=?",
+                                                values: [[nk]]
                                             },
                                             function(msg){
                                                 if(msg.status == 'ok'){
