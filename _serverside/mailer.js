@@ -99,7 +99,7 @@ function checkMailCode(req){
                     {
                         action: 'select',
                         stmt: "select * from user where nickname=?",
-                        values: nk
+                        values: [[nk]]
                     },
                     function(msg){
                         if(msg.status == 'ok'){
