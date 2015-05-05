@@ -5,6 +5,7 @@ function signin(req){
         var attrs = req.formAttributes();
         var em = attrs.get("em");
         var pw = attrs.get("pw");
+        var nk = attrs.get("nk");
 
         // send query
         eb.send(
@@ -15,26 +16,27 @@ function signin(req){
                 values: [[em]]
             },
             function(msg){
-                console.log('---sql status: '+msg.status+'---');
+                console.log('maria status(signin()): '+msg.status);
 
                 if(msg.status=='error'){
-                    console.log("---------------denied-------------------");
+                    console.log("access denied(signin())");
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
                 } else if(msg.result[0] == null){
-                    console.log("--no user like that--");
+                    console.log("user not exist(signin())");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
                 } else if(pw != msg.result[0].password){
-                    console.log("--incorrect!!--");
+                    console.log("password incorrect(signin())");
                     req.response.end("<script>location.href='"+server['url']+"';</script>");
                 } else if(pw == msg.result[0].password){
-                    console.log("###correct###");
+                    console.log("password correct(signin())");
                     var nk = msg.result[0].nickname;
-                    createSession(req);
+                    createSession(req, nk);
                 }
             }
         );
     });
 }
+
 function signup(req){
     // get Form data by 'POST' method
     req.expectMultiPart(true);
@@ -52,83 +54,26 @@ function signup(req){
                 values: [[em, pw, nk]]
             },
             function(msg){
-                console.log('---sql status: '+msg.status+'---');
+                console.log('maria status(signup())'+msg.status+'---');
                 if(msg.status == 'ok'){
-                    createSession(req);
+                    createSession(req, nk);
                 } else {
-                    console.log("---------------denied-------------------");
+                    console.log("access denied(signup())");
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
                 }
             }
         );
     });
 }
+
 function signout(req){
-    eb.send(
-        'redis.io',
-        {
-
-        },
-        function(msg){
-
-        }
-    );
+    // remove user from session
+    removeSession(req);
 }
-function check_auth(req, cb, cb_inside){
-    var uuid = getCookie(req);
-    console.log("from cookie uuid is: "+uuid);
-    eb.send(
-        'redis.io',
-        {
-            command: "get",
-            args: [uuid]
-        },
-        function(msg){
-            if(msg.status == 'ok'){
-                console.log("auth redis value : "+msg.value);
-                if(msg.value == 'ok'){
-                    eb.send(
-                        'redis.io',
-                        {
-                            command: "expire",
-                            args: [uuid, 10*60]
-                        },
-                        function(msg){
-                            console.log("-----------"+msg.status+"----------");
-                            cb(true, cb_inside);
-                            console.log("after callback");
-                        }
-                    );
-                }else{
-                    cb(false, cb_inside);
-                    console.log("after callback");
-                }
-            }
-        }
-    );
-}
-
-function cb_auth(auth, cb_inside){
-    console.log("cb_auth called");
-    cb_inside(auth);
-}
-
 
 function remove_user(req){
-    eb.send(
-        'maria.io',
-        {
-
-        },
-        function(msg){
-
-        }
-    );
-}
-
-function createSession(req){
-    uuid = generateUUID();
-    console.log("------------"+uuid+"----------");
+    var nk = null;
+    var uuid = getCookieUUID(req);
     eb.send(
         'redis.io',
         {
@@ -136,72 +81,30 @@ function createSession(req){
             args: [uuid]
         },
         function(msg){
-            console.log("----"+msg.value+"----");
             if(msg.value==null){
+                console.log("failed to get session(remove_user): ");
+                req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+            }else{
+                nk = msg.value;
+                // remove user from database
                 eb.send(
-                    'redis.io',
+                    'maria.io',
                     {
-                        command: "set",
-                        args: [uuid, 'ok']
+                        action: 'execute',
+                        stmt: "delete from user where nickname='"+nk+"'"
                     },
                     function(msg){
                         if(msg.status == 'ok'){
-                            eb.send(
-                                'redis.io',
-                                {
-                                    command: "expire",
-                                    args: [uuid, 10*60]
-                                },
-                                function(msg){
-                                    console.log("-----------"+msg.status+"----------");
-                                    setCookie(req, uuid);
-                                    // req.response.putHeader('Set-Cookie','id=hi;HttpOnly');
-                                    req.response.end("<script>location.href='"+server['url']+"/main';</script>");
-                                }
-                            );
-                        }else{
-                            return createSession(req);
+                            // remove user from session
+                            console.log("remove user succeed(remove_user())");
+                            removeSession(req);
+                        } else {
+                            console.log("remove user failed(remove_user())");
+                            req.response.end("<script>location.href='"+server['url']+"/main';</script>");
                         }
                     }
                 );
-            }else{
-                return createSession(req);
             }
         }
     );
-}
-
-function setCookie(req, uuid){
-    // req.response.putHeader('Set-Cookie','id=hi;HttpOnly');
-    req.response.putHeader('Set-Cookie','id='+uuid+'; Path=/; HttpOnly; Secure');
-    console.log("setcookie");
-}
-function getCookie(req){
-    var header = req.headers();
-    var cookie=header.get('Cookie');
-    var uuid = null;
-
-    if(cookie != null){
-        cookie = cookie.split("=");
-        for(var i in cookie){
-            cookie[i].trim();
-        }
-        for(var i in cookie){
-            if(cookie[i]=='id'){
-                uuid = cookie[Number(i)+1];
-            }
-        }
-        return uuid;
-    }
-    return null;
-}
-
-function generateUUID() {
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-    });
-    return uuid;
 }

@@ -7,6 +7,7 @@ var timer = require("vertx/timer");
 
 load('config.js');
 load("init_database.js");
+load("session.js");
 load('sign.js');
 load('static_file.js');
 load('eb_register.js');
@@ -18,20 +19,30 @@ var httpserver = vertx.createHttpServer()
     // route user by their uri request
     switch(req.path()){
         case "/":
-            req.response.sendFile("../_clientside/html/index.html");    break;
+            check_auth(req, function(auth){
+                console.log('auth(server.js): '+auth);
+                if(auth==true){
+                    req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
+                }else if(auth==false){
+                    req.response.sendFile("../_clientside/html/index.html");
+                }
+            });
+            break;
         case "/signin":
-            signin(req, eb);    break;
+            signin(req);    break;
         case "/signup":
             signup(req);    break;
         case "/signout":
             signout(req);   break;
+        case "/ru":
+            remove_user(req);
+            break;
         case "/main":
-            check_auth(req, cb_auth, function(auth){
-                console.log(auth+'--');
+            check_auth(req, function(auth){
+                console.log('auth(server.js): '+auth);
                 if(auth==true){
                     req.response.sendFile("../_clientside/html/main.html");
                 }else if(auth==false){
-                    console.log("auth failed--------------------");
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
                 }
             });
@@ -39,7 +50,8 @@ var httpserver = vertx.createHttpServer()
         case "/edit":
             req.response.sendFile("../_clientside/html/edit.html");     break;
         default:
-            sendSrc(req);   break;
+            sendSrc(req);
+            break;
     }
 })
 .ssl(true)

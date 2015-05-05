@@ -13,6 +13,7 @@ const server = {
     "keyStorePath": "keys/testkey.jks",
     "keyStorePassword": "321654",
     "url": "https://localhost",
+    "sesn_lifetime": 15*60
     // "host": "localhost"
 };
 
