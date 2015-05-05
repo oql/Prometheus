@@ -98,12 +98,12 @@ function checkMailCode(req){
                     'maria.io',
                     {
                         action: 'select',
-                        stmt: "select * from user where nickname=?",
-                        values: [[nk]]
+                        stmt: "select * from user where nickname='"+nk+"'"
                     },
                     function(msg){
                         if(msg.status == 'ok'){
                             em = msg.result[0].email;
+                            console.log("gotten email(checkMailCode()): "+em);
                             eb.send(
                                 'redis.io',
                                 {
