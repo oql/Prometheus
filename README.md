@@ -8,7 +8,10 @@ Using vertx2 for serverside.
 I will upgrade it when vertx3 is stabled and well documented.
 
 ###Signin and Signup
-I made simple signin and signup index page. Willing to add https and smtp auth functions.
+I made simple signin and signup index page.
+
+###Https and Mail auth functions
+I added https and smtp auth functions.
 
 ###Designing Main
 designing main page suit for our wiki
@@ -33,3 +36,6 @@ Branch which get more than particular number of comfirm of people is updated to 
 ### Linking
 By `Public Tag` function, server search correlation of document periodically and link them in the document.
 It binds relevent documents strongly and provides `maybe interested` information to user.
+
+### Direct comentary
+User do not comment on another page or etc. make comentary directly on word that issued.
