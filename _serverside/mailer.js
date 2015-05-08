@@ -6,7 +6,7 @@ var conf_mail = {
 
 container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
-var mailer = function(){};
+function mailer(){};
 
 mailer.prototype.sendAuthMail = function(req){
     var code = null;
