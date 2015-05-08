@@ -1,8 +1,9 @@
 load("session.js");
-
 var sesn = new session();
 
-function signin(req){
+function sign(){};
+
+sign.prototype.signin = function(req){
     // get Form data by 'POST' method
     req.expectMultiPart(true);
     req.endHandler(function(){
@@ -39,9 +40,9 @@ function signin(req){
             }
         );
     });
-}
+};
 
-function signup(req){
+sign.prototype.signup = function(req){
     // get Form data by 'POST' method
     req.expectMultiPart(true);
     req.endHandler(function(){
@@ -68,14 +69,14 @@ function signup(req){
             }
         );
     });
-}
+};
 
-function signout(req){
+sign.prototype.signout = function(req){
     // remove user from session
     sesn.removeSession(req);
-}
+};
 
-function remove_user(req){
+sign.prototype.remove_user = function(req){
     var nk = null;
     var uuid = getCookieUUID(req);
     eb.send(
@@ -111,4 +112,4 @@ function remove_user(req){
             }
         }
     );
-}
+};

@@ -1,18 +1,15 @@
+load("session.js");
+var sesn = new session();
+
 var conf_mail = {
     "address": "mail.io",
     "host": "localhost",
     "port": 25
 };
-
 container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
-load("session.js");
 
 function mailer(){};
-
-var sesn = new session();
-
-// mailer.prototype.owner = mailer.this;
 
 mailer.prototype.sendAuthMail = function(req){
     var owner = this;

@@ -2,19 +2,18 @@ var vertx = require("vertx");
 var console = require("vertx/console");
 var container = require('vertx/container');
 var eb = require("vertx/event_bus");
-// var timer = require("vertx/timer");
-// var eb2 = require("vertx/event_bus");
 
 load('config.js');
 load("init_database.js");
-load("mailer.js");
-load("session.js");
-load('sign.js');
 load('static_file.js');
 load('eb_register.js');
 
+load("mailer.js");
 var m = new mailer();
+load("session.js");
 var sesn = new session();
+load('sign.js');
+var sg = new sign();
 
 // create Http server that listen port number 8080
 var httpserver = vertx.createHttpServer()
@@ -33,11 +32,11 @@ var httpserver = vertx.createHttpServer()
             });
             break;
         case "/signin":
-            signin(req);    break;
+            sg.signin(req);    break;
         case "/signup":
-            signup(req);    break;
+            sg.signup(req);    break;
         case "/signout":
-            signout(req);   break;
+            sg.signout(req);   break;
         case "/mailauth":
             sesn.check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
