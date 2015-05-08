@@ -25,11 +25,11 @@ session.prototype.check_auth = function(req, cb){
                         },
                         function(msg){
                             console.log("session lifetime reset(check_auth()): "+msg.status);
-                            cb(true, req);
+                            cb(true);
                         }
                     );
                 }else{
-                    cb(false, req);
+                    cb(false);
                 }
             }
         }
