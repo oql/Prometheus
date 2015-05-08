@@ -8,6 +8,8 @@ container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
 function mailer(){};
 
+mailer.prototype.owner = mailer.this;
+
 mailer.prototype.sendAuthMail = function(req){
     var code = null;
     var nk = null;
@@ -35,7 +37,7 @@ mailer.prototype.sendAuthMail = function(req){
                     function(msg){
                         if(msg.status == 'ok'){
                             em = msg.result[0].email;
-                            code = this.generateCode();
+                            code = owner.generateCode();
                             eb.send(
                                 'redis.io',
                                 {
