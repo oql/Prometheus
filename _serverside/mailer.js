@@ -11,7 +11,8 @@ function mailer(){};
 // mailer.prototype.owner = mailer.this;
 
 mailer.prototype.sendAuthMail = function(req){
-    this.owner = this;
+    var owner = this;
+    
     var code = null;
     var nk = null;
     var em = null;
