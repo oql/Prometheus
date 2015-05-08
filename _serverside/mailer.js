@@ -6,8 +6,9 @@ var conf_mail = {
 
 container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
+var mailer = function(){};
 
-function sendAuthMail(req){
+mailer.prototype.sendAuthMail = function(req){
     var code = null;
     var nk = null;
     var em = null;
@@ -34,7 +35,7 @@ function sendAuthMail(req){
                     function(msg){
                         if(msg.status == 'ok'){
                             em = msg.result[0].email;
-                            code = generateCode();
+                            code = this.generateCode();
                             eb.send(
                                 'redis.io',
                                 {
@@ -71,9 +72,9 @@ function sendAuthMail(req){
             }
         }
     );
-}
+};
 
-function checkMailCode(req){
+mailer.prototype.checkMailCode = function(req){
     req.expectMultiPart(true);
     req.endHandler(function(){
         var code = req.formAttributes().get("code");
@@ -138,9 +139,9 @@ function checkMailCode(req){
             }
         );
     });
-}
+};
 
-function generateCode(){
+mailer.prototype.generateCode(){
     var code = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

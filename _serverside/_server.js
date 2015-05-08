@@ -7,11 +7,13 @@ var eb = require("vertx/event_bus");
 
 load('config.js');
 load("init_database.js");
-load("mailer.js")
+load("mailer.js");
 load("session.js");
 load('sign.js');
 load('static_file.js');
 load('eb_register.js');
+
+var m = new mailer();
 
 // create Http server that listen port number 8080
 var httpserver = vertx.createHttpServer()
@@ -39,7 +41,7 @@ var httpserver = vertx.createHttpServer()
             check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
-                    sendAuthMail(req);
+                    m.sendAuthMail(req);
                     req.response.sendFile("../_clientside/html/auth.html");
                 }else if(auth==false){
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
@@ -50,7 +52,7 @@ var httpserver = vertx.createHttpServer()
             check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
-                    checkMailCode(req);
+                    m.checkMailCode(req);
                 }else if(auth==false){
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
                 }
