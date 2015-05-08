@@ -49,14 +49,15 @@ var httpserver = vertx.createHttpServer()
             });
             break;
         case "/checkcode":
-            check_auth(req, function(auth, req){
-                console.log('auth(server.js): '+auth);
-                if(auth==true){
-                    m.checkMailCode(req);
-                }else if(auth==false){
-                    req.response.end("<script>location.href = '"+server['url']+"';</script>");
-                }
-            });
+            // check_auth(req, function(auth, req){
+            //     console.log('auth(server.js): '+auth);
+            //     if(auth==true){
+            //         m.checkMailCode(req);
+            //     }else if(auth==false){
+            //         req.response.end("<script>location.href = '"+server['url']+"';</script>");
+            //     }
+            // });
+            m.checkMailCode(req);
             break;
         case "/removeuser":
             remove_user(req);   break;
