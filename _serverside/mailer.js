@@ -1,3 +1,4 @@
+load("wtf.js");
 load("session.js");
 var sesn = new session();
 
@@ -18,65 +19,145 @@ mailer.prototype.sendAuthMail = function(req){
     var nk = null;
     var em = null;
     var uuid = sesn.getCookieUUID(req);
-    eb.send(
-        'redis.io',
-        {
-            command: "get",
-            args: [uuid]
-        },
-        function(msg){
-            if(msg.value==null){
-                console.log("failed to get session(send_auth_mail()): ");
-            }else{
-                nk = msg.value;
-                // remove user from database
-                eb.send(
-                    'maria.io',
-                    {
-                        action: 'select',
-                        stmt: "select * from user where nickname=?",
-                        values: [[nk]]
-                    },
-                    function(msg){
-                        if(msg.status == 'ok'){
-                            em = msg.result[0].email;
-                            code = owner.generateCode();
-                            eb.send(
-                                'redis.io',
-                                {
-                                    command: "set",
-                                    args: [em, code]
-                                },
-                                function(msg){
-                                    if(msg.status == 'ok'){
-                                        eb.send(
-                                            'redis.io',
-                                            {
-                                                command: "expire",
-                                                args: [em, server["sesn_lifetime"]]
-                                            },
-                                            function(msg){
-                                                console.log("email-code set in redis(sendAuthMail()): "+msg.status);
-                                                eb.send(
-                                                    'mail.io',
-                                                    {
-                                                        "from": "auth@ryunwake.com",
-                                                        "to": em,
-                                                        "subject": "Auth mail",
-                                                        "body": code+""
-                                                    }
-                                                );
-                                            }
-                                        );
-                                    }
-                                }
-                            );
-                        }
+
+    wtf.heap([
+        uuid
+    ],
+    [
+        function(uuid, cb){
+            eb.send(
+                'redis.io',
+                {
+                    command: "get",
+                    args: [uuid]
+                },
+                function(msg){
+                    if(msg.value==null){
+                        console.log("failed to get session(send_auth_mail()): ");
+                    }else{
+                        nk = msg.value;
+                        cb(nk);
                     }
-                );
-            }
+                }
+            );
+        },
+        function(nk, cb){
+            // remove user from database
+            eb.send(
+                'maria.io',
+                {
+                    action: 'select',
+                    stmt: "select * from user where nickname=?",
+                    values: [[nk]]
+                },
+                function(msg){
+                    if(msg.status == 'ok'){
+                        em = msg.result[0].email;
+                        code = owner.generateCode();
+                        cb();
+                    }
+                }
+            );
+        },
+        function(){
+            eb.send(
+                'redis.io',
+                {
+                    command: "set",
+                    args: [em, code]
+                },
+                function(msg){
+                    if(msg.status == 'ok'){
+                        cb();
+                    }
+                }
+            );
+        },
+        function(){
+            eb.send(
+                'redis.io',
+                {
+                    command: "expire",
+                    args: [em, server["sesn_lifetime"]]
+                },
+                function(msg){
+                    console.log("email-code set in redis(sendAuthMail()): "+msg.status);
+                    cb();
+                }
+            );
+        },
+        function(){
+            eb.send(
+                'mail.io',
+                {
+                    "from": "auth@ryunwake.com",
+                    "to": em,
+                    "subject": "Auth mail",
+                    "body": code+""
+                }
+            );
         }
-    );
+    ]);
+    
+    // eb.send(
+    //     'redis.io',
+    //     {
+    //         command: "get",
+    //         args: [uuid]
+    //     },
+    //     function(msg){
+    //         if(msg.value==null){
+    //             console.log("failed to get session(send_auth_mail()): ");
+    //         }else{
+    //             nk = msg.value;
+    //             // remove user from database
+    //             eb.send(
+    //                 'maria.io',
+    //                 {
+    //                     action: 'select',
+    //                     stmt: "select * from user where nickname=?",
+    //                     values: [[nk]]
+    //                 },
+    //                 function(msg){
+    //                     if(msg.status == 'ok'){
+    //                         em = msg.result[0].email;
+    //                         code = owner.generateCode();
+    //                         eb.send(
+    //                             'redis.io',
+    //                             {
+    //                                 command: "set",
+    //                                 args: [em, code]
+    //                             },
+    //                             function(msg){
+    //                                 if(msg.status == 'ok'){
+    //                                     eb.send(
+    //                                         'redis.io',
+    //                                         {
+    //                                             command: "expire",
+    //                                             args: [em, server["sesn_lifetime"]]
+    //                                         },
+    //                                         function(msg){
+    //                                             console.log("email-code set in redis(sendAuthMail()): "+msg.status);
+    //                                             eb.send(
+    //                                                 'mail.io',
+    //                                                 {
+    //                                                     "from": "auth@ryunwake.com",
+    //                                                     "to": em,
+    //                                                     "subject": "Auth mail",
+    //                                                     "body": code+""
+    //                                                 }
+    //                                             );
+    //                                         }
+    //                                     );
+    //                                 }
+    //                             }
+    //                         );
+    //                     }
+    //                 }
+    //             );
+    //         }
+    //     }
+    // );
 };
 
 mailer.prototype.checkMailCode = function(req){
