@@ -57,7 +57,7 @@ var httpserver = vertx.createHttpServer()
             //         req.response.end("<script>location.href = '"+server['url']+"';</script>");
             //     }
             // });
-            checkMailCode(req);
+            m.checkMailCode(req);
             break;
         case "/removeuser":
             remove_user(req);   break;
