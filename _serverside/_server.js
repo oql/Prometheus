@@ -14,6 +14,7 @@ load('static_file.js');
 load('eb_register.js');
 
 var m = new mailer();
+var sesn = new session();
 
 // create Http server that listen port number 8080
 var httpserver = vertx.createHttpServer()
@@ -22,7 +23,7 @@ var httpserver = vertx.createHttpServer()
     // route user by their uri request
     switch(req.path()){
         case "/":
-            check_auth(req, function(auth){
+            sesn.check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
                     req.response.end("<script>location.href = '"+server['url']+"/main';</script>");
@@ -38,7 +39,7 @@ var httpserver = vertx.createHttpServer()
         case "/signout":
             signout(req);   break;
         case "/mailauth":
-            check_auth(req, function(auth){
+            sesn.check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
                     m.sendAuthMail(req);
@@ -60,9 +61,9 @@ var httpserver = vertx.createHttpServer()
             m.checkMailCode(req);
             break;
         case "/removeuser":
-            remove_user(req);   break;
+            sesn.remove_user(req);   break;
         case "/main":
-            check_auth(req, function(auth){
+            sesn.check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
                     req.response.sendFile("../_clientside/html/main.html");

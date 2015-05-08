@@ -8,6 +8,8 @@ container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
 function mailer(){};
 
+var sesn = new session();
+
 // mailer.prototype.owner = mailer.this;
 
 mailer.prototype.sendAuthMail = function(req){
@@ -16,7 +18,7 @@ mailer.prototype.sendAuthMail = function(req){
     var code = null;
     var nk = null;
     var em = null;
-    var uuid = getCookieUUID(req);
+    var uuid = sesn.getCookieUUID(req);
     eb.send(
         'redis.io',
         {
@@ -85,7 +87,7 @@ mailer.prototype.checkMailCode = function(req){
         var code = req.formAttributes().get("code");
         var em = null;
         var nk = null;
-        var uuid = getCookieUUID(req);
+        var uuid = sesn.getCookieUUID(req);
         console.log("code(checkMailCode()): "+code);
         eb.send(
             'redis.io',

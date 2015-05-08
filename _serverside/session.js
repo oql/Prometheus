@@ -1,6 +1,10 @@
-function check_auth(req, cb){
+function session(){};
+
+session.prototype.check_auth = function(req, cb){
+    var owner = this;
+
     // get uuid cookie from client
-    var uuid = getCookieUUID(req);
+    var uuid = owner.getCookieUUID(req);
     console.log("cookie from user, uuid(check_auth()):"+uuid);
     eb.send(
         'redis.io',
@@ -30,9 +34,9 @@ function check_auth(req, cb){
             }
         }
     );
-}
+};
 
-function createSession(req, key_value){
+session.prototype.createSession = function(req, key_value){
     uuid = generateUUID();
     eb.send(
         'redis.io',
@@ -59,7 +63,7 @@ function createSession(req, key_value){
                                 },
                                 function(msg){
                                     console.log("uuid set in redis(createSession()): "+msg.status);
-                                    setCookieUUID(req, uuid);
+                                    owner.setCookieUUID(req, uuid);
                                     // redirect to main page after set cookie
                                     req.response.end("<script>location.href='"+server['url']+"/main';</script>");
                                 }
@@ -76,14 +80,12 @@ function createSession(req, key_value){
             }
         }
     );
-}
+};
 
-function createAuthSession(req){
+session.prototype.removeSession = function(req){
+    var owner = this;
 
-}
-
-function removeSession(req){
-    uuid = getCookieUUID(req);
+    uuid = owner.getCookieUUID(req);
     if(uuid != null){
         eb.send(
             'redis.io',
@@ -93,20 +95,20 @@ function removeSession(req){
             },
             function(msg){
                 console.log("uuid set in redis(createSession()): "+msg.status);
-                setCookieUUID(req, null);
+                owner.setCookieUUID(req, null);
                 // redirect to main page after set cookie
                 req.response.end("<script>location.href='"+server['url']+"';</script>");
             }
         );
     }
-}
+};
 
-function setCookieUUID(req, uuid){
+session.prototype.setCookieUUID = function(req, uuid){
     req.response.putHeader('Set-Cookie','uuid='+uuid+'; Path=/; HttpOnly; Secure');
     console.log("putHeader(setCookieUUID()): "+uuid);
-}
+};
 
-function getCookieUUID(req){
+session.prototype.getCookieUUID = function(req){
     var header = req.headers();
     var cookie=header.get('Cookie');
     var uuid = null;
@@ -126,9 +128,9 @@ function getCookieUUID(req){
         // if cookie is null, return null
         return null;
     }
-}
+};
 
-function generateUUID() {
+session.prototype.generateUUID = function(){
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -137,4 +139,4 @@ function generateUUID() {
     });
     console.log("generated uuid(createSession()): "+uuid);
     return uuid;
-}
+};
