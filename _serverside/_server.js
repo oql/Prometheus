@@ -10,8 +10,10 @@ load('eb_register.js');
 
 load("mailer.js");
 var m = new mailer();
+
 load("session.js");
 var sesn = new session();
+
 load('sign.js');
 var sg = new sign();
 
