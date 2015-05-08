@@ -141,7 +141,7 @@ mailer.prototype.checkMailCode = function(req){
     });
 };
 
-mailer.prototype.generateCode(){
+mailer.prototype.generateCode = function(){
     var code = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
