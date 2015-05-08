@@ -1,3 +1,7 @@
+load("session.js");
+
+var sesn = new session();
+
 function signin(req){
     // get Form data by 'POST' method
     req.expectMultiPart(true);
@@ -30,7 +34,7 @@ function signin(req){
                 } else if(pw == msg.result[0].password){
                     console.log("password correct(signin())");
                     var nk = msg.result[0].nickname;
-                    createSession(req, nk);
+                    sesn.createSession(req, nk);
                 }
             }
         );
@@ -56,7 +60,7 @@ function signup(req){
             function(msg){
                 console.log('maria status(signup())'+msg.status+'---');
                 if(msg.status == 'ok'){
-                    createSession(req, nk);
+                    sesn.createSession(req, nk);
                 } else {
                     console.log("access denied(signup())");
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
@@ -68,7 +72,7 @@ function signup(req){
 
 function signout(req){
     // remove user from session
-    removeSession(req);
+    sesn.removeSession(req);
 }
 
 function remove_user(req){
@@ -97,7 +101,7 @@ function remove_user(req){
                         if(msg.status == 'ok'){
                             // remove user from session
                             console.log("remove user succeed(remove_user())");
-                            removeSession(req);
+                            sesn.removeSession(req);
                         } else {
                             console.log("remove user failed(remove_user())");
                             req.response.end("<script>location.href='"+server['url']+"/main';</script>");
