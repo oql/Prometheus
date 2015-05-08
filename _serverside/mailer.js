@@ -150,4 +150,4 @@ mailer.prototype.generateCode(){
     }
 
     return code;
-}
+};
