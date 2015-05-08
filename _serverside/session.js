@@ -21,11 +21,11 @@ function check_auth(req, cb){
                         },
                         function(msg){
                             console.log("session lifetime reset(check_auth()): "+msg.status);
-                            cb(true);
+                            cb(true, req);
                         }
                     );
                 }else{
-                    cb(false);
+                    cb(false, req);
                 }
             }
         }
