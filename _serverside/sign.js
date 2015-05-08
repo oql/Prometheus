@@ -79,37 +79,48 @@ sign.prototype.signout = function(req){
 sign.prototype.remove_user = function(req){
     var nk = null;
     var uuid = getCookieUUID(req);
-    eb.send(
-        'redis.io',
-        {
-            command: "get",
-            args: [uuid]
-        },
-        function(msg){
-            if(msg.value==null){
-                console.log("failed to get session(remove_user()): ");
-                req.response.end("<script>location.href='"+server['url']+"/main';</script>");
-            }else{
-                nk = msg.value;
-                // remove user from database
-                eb.send(
-                    'maria.io',
-                    {
-                        action: 'execute',
-                        stmt: "delete from user where nickname='"+nk+"'"
-                    },
-                    function(msg){
-                        if(msg.status == 'ok'){
-                            // remove user from session
-                            console.log("remove user succeed(remove_user())");
-                            sesn.removeSession(req);
-                        } else {
-                            console.log("remove user failed(remove_user())");
-                            req.response.end("<script>location.href='"+server['url']+"/main';</script>");
-                        }
+
+    wtf.heap([
+        uuid
+    ],
+    [
+        function(uuid, cb){
+            eb.send(
+                'redis.io',
+                {
+                    command: "get",
+                    args: [uuid]
+                },
+                function(msg){
+                    if(msg.value==null){
+                        console.log("failed to get session(remove_user()): ");
+                        req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+                    }else{
+                        nk = msg.value;
+                        cb();
                     }
-                );
-            }
+                }
+            );
+        },
+        function(cb){
+            // remove user from database
+            eb.send(
+                'maria.io',
+                {
+                    action: 'execute',
+                    stmt: "delete from user where nickname='"+nk+"'"
+                },
+                function(msg){
+                    if(msg.status == 'ok'){
+                        // remove user from session
+                        console.log("remove user succeed(remove_user())");
+                        sesn.removeSession(req);
+                    } else {
+                        console.log("remove user failed(remove_user())");
+                        req.response.end("<script>location.href='"+server['url']+"/main';</script>");
+                    }
+                }
+            );
         }
-    );
+    ]);
 };
