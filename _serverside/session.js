@@ -37,7 +37,9 @@ session.prototype.check_auth = function(req, cb){
 };
 
 session.prototype.createSession = function(req, key_value){
-    uuid = generateUUID();
+    var owner = this;
+
+    uuid = owner.generateUUID();
     eb.send(
         'redis.io',
         {
