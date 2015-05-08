@@ -1,58 +1,62 @@
 @charset "utf=8";
 
 body{
-    font-size:12px;
-    line-height:12px;
-    color:#5d5d5d;
-    background-color : #dff8eb;
-    text-align:center;
+        font-size:12px;
+        line-height:12px;
+        color:#5d5d5d;
+        background-color : #e2f0e9;
+        text-align : center;
+        overflow : hidden;
 }
 .logo{
-    margin-top : 200px;
-    margin-bottom : 50px;
+        margin-top : 200px;
+        margin-bottom : 50px;
 }
-.uname{
-    height :40px;
-    background-color :  #21BDA9;
-    margin-top :0px;
-    margin-right :0px;
-    margin-left : 0px;
-    font-family : 나눔고딕;
-}
-#srch{
-    background-color : #21BDA9;
-    margin: auto;
-    width:730px;
-}
-#srch input[type="text"]{
-    border : none;
-    color : none;
-    margin : 10px;
-    height:50px;
-    width : 700px;
-    line-height:auto;
-    text-align : left;
-    font-size : 2em;
-    font-family : 나눔고딕;
-    outline-style : none;
+.uname
+{
+        font-family : 나눔고딕;
+        position:relative;
+        top : -10px;
+        left : -155px;
+        width:200%;
+        height:32px;
+        border-bottom:1px solid #ffffff;
+        background-color:#21BDA9;
 }
 .ps
 {
-    margin-top : 30px;
-    color:#b1b1b1;
-    font-size : 1em;
+        margin-top : 30px;
+        color:#b1b1b1;
+        font-size : 1em;
 }
 .button
 {
-    position : absolute;
-    top:12px;
-    right :20px;
+        position : absolute;
+        top:1px;
+        left  :1400px;
 }
 .welcome
 {
-    font-size : 1.65em;
-    position : absolute;
-    top:21px;
-    right :250px;
-    color : #3c3c3c
+        font-size : 1.65em;
+        position : absolute;
+        top:10px;
+        left :1200px;
+        color : #3c3c3c
+}
+#srch{
+        background-color : #21BDA9;
+        margin: auto;
+        width:730px;
+}
+#srch input[type="text"]{
+        border : none;
+        color : none;
+        margin : 10px;
+        height:50px;
+        width : 700px;
+        line-height:auto;
+        text-align : left;
+        font-size : 2em;
+        font-family : 나눔고딕;
+        outline-style : none;
 }
