@@ -6,6 +6,8 @@ var conf_mail = {
 
 container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
+load("session.js");
+
 function mailer(){};
 
 var sesn = new session();
