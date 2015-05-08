@@ -59,7 +59,7 @@ mailer.prototype.sendAuthMail = function(req){
                 }
             );
         },
-        function(){
+        function(cb){
             eb.send(
                 'redis.io',
                 {
@@ -73,7 +73,7 @@ mailer.prototype.sendAuthMail = function(req){
                 }
             );
         },
-        function(){
+        function(cb){
             eb.send(
                 'redis.io',
                 {
@@ -98,7 +98,7 @@ mailer.prototype.sendAuthMail = function(req){
             );
         }
     ]);
-    
+
     // eb.send(
     //     'redis.io',
     //     {
