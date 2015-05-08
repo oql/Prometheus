@@ -6,12 +6,13 @@ var conf_mail = {
 
 container.deployModule("io.vertx~mod-mailer~2.0.0-final", conf_mail);
 
-function mailer(){};
+function mailer(){
+    this.owner = this;
+};
 
 // mailer.prototype.owner = mailer.this;
 
 mailer.prototype.sendAuthMail = function(req){
-    var owner = this;
     var code = null;
     var nk = null;
     var em = null;
