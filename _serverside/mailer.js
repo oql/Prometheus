@@ -12,7 +12,7 @@ function mailer(){};
 
 mailer.prototype.sendAuthMail = function(req){
     var owner = this;
-    
+
     var code = null;
     var nk = null;
     var em = null;
@@ -79,6 +79,7 @@ mailer.prototype.sendAuthMail = function(req){
 };
 
 mailer.prototype.checkMailCode = function(req){
+    console.log("checkMailCode called -----------");
     req.expectMultiPart(true);
     req.endHandler(function(){
         var code = req.formAttributes().get("code");
