@@ -56,7 +56,7 @@ var httpserver = vertx.createHttpServer()
                 }
             });
             break;
-        case "/ru":
+        case "/removeuser":
             remove_user(req);   break;
         case "/main":
             check_auth(req, function(auth){

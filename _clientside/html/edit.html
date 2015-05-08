@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
     <script src="../js/vertxbus-2.1.js"></script>
     <link rel="stylesheet" href="../css/edit.css">
+    <script src="../js/sendArticle.js"></script>
 </head>
 <body>
     <!-- header need to same which in Main.html -->
@@ -37,36 +38,6 @@
 
     </footer>
 
-    <script>
-    function sendText(){
-        var docs = document.getElementById("docs");
-        var title = document.getElementById("Title");
-        var tx = docs.innerHTML;
-        var tl = title.innerHTML;
-        publish('ctos.text', tl, tx);
-    }
 
-    var eb = new vertx.EventBus("https://localhost/eventbus");
-
-    eb.onopen = function() {};
-    eb.onclose = function() {
-        eb = null;
-    };
-
-    function subscribe(address) {
-        if (eb) {
-            eb.registerHandler(address, function(msg, replyTo) {
-            });
-        }
-    }
-
-    function publish(address, tl, tx) {
-        console.log("publish----------------");
-        if (eb) {
-            var content = {"title": tl,"text": tx};
-            eb.publish(address, content);
-        }
-    }
-    </script>
 </body>
 </html>
