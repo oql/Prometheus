@@ -52,7 +52,7 @@ var httpserver = vertx.createHttpServer()
             check_auth(req, function(auth){
                 console.log('auth(server.js): '+auth);
                 if(auth==true){
-                    m.checkMailCode(req);
+                    checkMailCode(req);
                 }else if(auth==false){
                     req.response.end("<script>location.href = '"+server['url']+"';</script>");
                 }
