@@ -18,13 +18,13 @@ eb.onclose = function() {
     eb = null;
 };
 
-function subscribe(address) {
-    if (eb) {
-        eb.registerHandler(address, function(msg, replyTo) {
-
-        });
-    }
-}
+// function subscribe(address) {
+//     if (eb) {
+//         eb.registerHandler(address, function(msg, replyTo) {
+//
+//         });
+//     }
+// }
 
 function publish(address, tl, tx) {
     console.log("publish----------------");

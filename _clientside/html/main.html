@@ -5,6 +5,35 @@
     <meta charset="UTF-8">
     <title>main</title>
     <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script src="../js/vertxbus-2.1.js"></script>
+    <script>    // searchArticle.js
+        var word = null;
+
+        var eb = new vertx.EventBus("https://localhost/eventbus");
+
+        eb.onopen = function(){};
+        eb.onclose = function(){
+            eb = null;
+        }
+
+        function publish(address, word){
+            if(eb){
+                console.log("publish__");
+                console.log("word: "+word);
+                var content = {"word": word}
+                eb.publish(address, content, function(rep){
+                    console.log("get request");
+                });
+            }
+        }
+
+        function searchReq(){
+            var s = document.getElementById("srchtxt");
+            var word = s.value;
+            publish('ctos.srch', word);
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -22,7 +51,10 @@
     </header>
     <section>
         <!-- search document -->
-        <div id="srch"><input type="text" name="srch"></div>
+        <div id="srch">
+            <input type="text" name="srch" id = "srchtxt">
+            <button type="button" onclick ="searchReq()">aa</button>
+        </div>
         <!-- show issued document -->
         <div id="isudoc">
             <!-- many many docs -->
